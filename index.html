@@ -83,7 +83,8 @@
   .hdr-progress .bar>span{display:block;height:100%;background:linear-gradient(90deg,#ffb3c7,#ffc9a5,#ffdd8f);border-radius:8px;transition:width .5s}
   .hdr-progress .rate{font-size:12px;font-weight:800;color:var(--text);min-width:36px;text-align:right}
 
-  .main{max-width:720px;margin:0 auto;padding:12px}
+  .main{max-width:720px;margin:0 auto;padding:12px 10px;
+    padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
 
   /* ==================== Tiles ==================== */
   .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
@@ -186,15 +187,15 @@
   .cal-head button:active{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
   .cal-head .title{font-size:17px;font-weight:800;flex:1;text-align:center;color:var(--text)}
   .cal-head .today-btn{background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;border-color:transparent;box-shadow:0 3px 8px rgba(255,158,193,.35)}
-  .cal{background:var(--panel);border:1.5px solid var(--border);border-radius:18px;padding:8px;box-shadow:var(--shadow);overflow:hidden}
-  .cal .dow{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
-  .cal .dow>span{text-align:center;font-size:11px;color:var(--muted);padding:4px 0;font-weight:800}
+  .cal{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;padding:6px 5px;box-shadow:var(--shadow);overflow:hidden;width:100%}
+  .cal .dow{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px;width:100%}
+  .cal .dow>span{text-align:center;font-size:11px;color:var(--muted);padding:4px 0;font-weight:800;min-width:0}
   .cal .dow>span.sun{color:var(--pink-deep)}
   .cal .dow>span.sat{color:var(--sky-deep)}
-  .cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-  .cal .cell{background:#fffdfe;border:1.5px solid var(--border-soft);border-radius:12px;
-    aspect-ratio:1/1;padding:4px 5px;display:flex;flex-direction:column;
-    cursor:pointer;position:relative;transition:transform .1s,box-shadow .15s;min-height:52px}
+  .cal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;width:100%}
+  .cal .cell{background:#fffdfe;border:1px solid var(--border-soft);border-radius:10px;
+    aspect-ratio:1/1;padding:3px 4px;display:flex;flex-direction:column;
+    cursor:pointer;position:relative;transition:transform .1s,box-shadow .15s;min-width:0;min-height:50px;overflow:hidden}
   .cal .cell:active{transform:scale(.94);box-shadow:0 4px 12px rgba(255,158,193,.25)}
   .cal .cell.outside{opacity:.4;background:#faf5f7}
   .cal .cell.today{background:linear-gradient(135deg,#fff3f7,#ffdfec);border-color:var(--pink);box-shadow:0 0 0 2px var(--pink-soft) inset}
@@ -203,12 +204,13 @@
   .cal .cell.stamped{background:linear-gradient(135deg,#fff9ec,#fff0d4);border-color:#f5c26a}
   .cal .cell.stamped.today{background:linear-gradient(135deg,#ffeadb,#ffd5c2);border-color:var(--pink)}
   .cal .cell.overloaded{box-shadow:inset 0 0 0 2px var(--coral)}
-  .cal .cell .day{font-size:13px;font-weight:800;line-height:1;display:flex;justify-content:space-between;align-items:center;gap:2px}
+  .cal .cell .day{font-size:12px;font-weight:800;line-height:1;display:flex;justify-content:space-between;align-items:center;gap:2px;min-width:0;overflow:hidden}
+  .cal .cell .day>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .cal .cell .day.sun{color:var(--pink-deep)}
   .cal .cell .day.sat{color:var(--sky-deep)}
-  .cal .cell .n{font-size:10px;background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;border-radius:10px;padding:1px 5px;min-width:16px;text-align:center;font-weight:700}
+  .cal .cell .n{font-size:9px;background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;border-radius:8px;padding:1px 4px;min-width:14px;text-align:center;font-weight:700;line-height:1.3;flex-shrink:0}
   .cal .cell .n.alldone{background:linear-gradient(135deg,#9ee0c4,#5fc99a)}
-  .cal .cell .mins{position:absolute;bottom:2px;right:3px;font-size:9px;color:var(--sub);font-weight:800;background:rgba(255,255,255,.85);padding:0 5px;border-radius:6px;line-height:1.4;letter-spacing:.2px}
+  .cal .cell .mins{position:absolute;bottom:2px;right:2px;font-size:8.5px;color:var(--sub);font-weight:800;background:rgba(255,255,255,.85);padding:0 3px;border-radius:5px;line-height:1.4;letter-spacing:0;max-width:calc(100% - 4px);overflow:hidden}
   .cal .cell .mins.over{background:rgba(255,163,138,.85);color:#a83250}
   .cal .cell .stamp{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);font-size:26px;line-height:1;filter:drop-shadow(0 2px 4px rgba(255,158,193,.35));animation:stampPop .4s ease-out;pointer-events:none}
   @keyframes stampPop{0%{transform:translate(-50%,-50%) scale(0) rotate(-20deg)}70%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg)}100%{transform:translate(-50%,-50%) scale(1) rotate(0)}}
@@ -389,10 +391,21 @@
   .backup-box .btns button:active{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
   .backup-box .hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
 
-  /* Settings row (limit input) */
-  .settings-row{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px}
-  .settings-row .lb{font-size:12px;color:var(--muted);font-weight:800;letter-spacing:.3px;flex:1}
-  .settings-row input[type=number]{width:80px;padding:8px 10px;border:1.5px solid var(--border);border-radius:10px;min-height:38px;font-weight:700;color:var(--text);text-align:right}
+  /* Settings modal sections */
+  .set-sec{background:#fff8fb;border:1.5px solid var(--border-soft);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+  .set-sec.danger{background:#fff2f5;border-color:var(--pink-soft)}
+  .set-sec .st-title{font-size:13px;font-weight:800;color:var(--pink-deep);margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:.3px}
+  .set-sec .st-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .set-sec input[type=number]{width:90px;padding:10px 12px;border:1.5px solid var(--border);border-radius:12px;min-height:42px;font-weight:700;color:var(--text);text-align:right;background:#fff}
+  .set-sec .st-help{font-size:13px;line-height:1.8;color:var(--sub)}
+  .set-sec .st-help b{color:var(--text)}
+  .set-sec .st-help code{background:#fef2f6;padding:2px 6px;border-radius:6px;font-size:12px;color:var(--pink-deep)}
+  .set-sec .st-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .set-sec .st-btns button{padding:12px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-weight:800;color:var(--sub);min-height:46px;font-size:14px}
+  .set-sec .st-btns button:active{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
+  .set-sec .st-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6}
+  .set-sec .st-danger{width:100%;padding:12px;background:#fff;border:1.5px solid var(--pink-soft);color:var(--pink-deep);border-radius:12px;font-weight:800;min-height:46px}
+  .set-sec .st-danger:active{background:var(--pink-soft)}
 
   /* ==================== Resource shelf (links) ==================== */
   #linkModalBg .modal{width:min(600px,100%)}
@@ -475,6 +488,7 @@
     <span class="logo">📚</span>
     <span class="title">べんきょうノート</span>
     <button class="icon-btn" id="linkShelfBtn" type="button" aria-label="資料棚">📎</button>
+    <button class="icon-btn" id="settingsBtn" type="button" aria-label="設定">⚙</button>
     <button class="testchip" id="testChipBtn" type="button">
       <span class="icx">🎯</span><span class="txt" id="testChipTxt">テストなし</span>
     </button>
@@ -722,6 +736,61 @@
       <button type="button" class="modal-secondary" data-close>キャンセル</button>
       <div style="text-align:center;margin-top:10px"><button type="button" class="modal-danger" id="testDeleteBtn" style="display:none">🗑 削除</button></div>
     </form>
+  </div>
+</div>
+
+<!-- ===== Settings Modal ===== -->
+<div class="modal-bg" id="settingsModalBg">
+  <div class="modal">
+    <div class="handle"></div>
+    <h3><span>⚙ 設定</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+
+    <div class="set-sec">
+      <div class="st-title">⏱ 1日の目安時間</div>
+      <div class="st-row">
+        <input type="number" id="setDailyLimit" min="30" step="30" inputmode="numeric">
+        <span style="font-size:13px;color:var(--sub);font-weight:600">分を超えると赤色で警告</span>
+      </div>
+      <div class="st-hint">カレンダーのセルや日別ヘッダーに合計時間を表示。ここを超えると詰め込みすぎの合図として赤色になります</div>
+    </div>
+
+    <div class="set-sec">
+      <div class="st-title">💾 バックアップ</div>
+      <div class="st-btns">
+        <button type="button" id="setExportBtn">📤 書き出し</button>
+        <button type="button" id="setImportBtn">📥 読み込み</button>
+      </div>
+      <div class="st-hint">JSONファイルで全データ（タスク・スタンプ・テスト・資料棚・設定）を保存。<br>⚠ iPhone Safariは7日間使わないとデータが消える可能性あり。定期的にDriveに置くのが安心です</div>
+    </div>
+
+    <div class="set-sec">
+      <div class="st-title">💡 使い方</div>
+      <div class="st-help">
+        <b>基本の流れ:</b><br>
+        ① 右下 <b style="color:var(--pink-deep)">＋</b> でやること登録（<code>まとめて</code> で一括登録可）<br>
+        ② 🗓カレンダーで配分 or 🌈均等配分ボタン<br>
+        ③ 毎日消化<br>
+        ④ 終わったらスタンプ 🌸<br><br>
+        <b>丸ボタン</b>: 未着手 → 着手中 → 完了と1タップ<br>
+        <b>タスクをタップ</b>: 詳細編集<br>
+        <b>カレンダー日付タップ</b>: スタンプ選び & その日のタスク管理<br>
+        <b>📎 資料棚</b>: ヘッダー📎から。よく使うリンクをタップで開く<br>
+        <b>🎯 テスト</b>: 下タブから複数テスト管理。範囲・カウントダウン・進捗<br>
+        <b>⏱ 合計◯分</b>: 各日の見積合計。上限超で赤色警告<br>
+        <b>完了を隠す</b>: 済んだタスクを一時的に非表示<br><br>
+        <b>データ保存先</b>: <code>localStorage</code>（このブラウザ内）
+      </div>
+    </div>
+
+    <div class="set-sec danger">
+      <div class="st-title">⚠ 全データを消す</div>
+      <button type="button" class="st-danger" id="setResetBtn">🗑 全データを消去する</button>
+      <div class="st-hint">タスク・スタンプ・テスト・資料棚・設定がすべて消えます。復元できません（バックアップ推奨）</div>
+    </div>
+
+    <div style="text-align:center;color:var(--muted);font-size:11px;font-weight:600;padding:8px 0">
+      べんきょうノート 📚 / じぶん専用ノート
+    </div>
   </div>
 </div>
 
@@ -1304,17 +1373,6 @@ function renderTodayView(root){
     ui.hideDone = !ui.hideDone; saveAll(); vib(6); render();
   });
 
-  // Daily limit setting (small)
-  const sr=document.createElement("div");
-  sr.className="settings-row";
-  sr.innerHTML=`<span class="lb">⏱ 1日の目安上限</span><input type="number" id="dailyLimitInp" min="30" step="30" value="${ui.dailyLimit}"><span style="font-size:12px;color:var(--muted);font-weight:700">分</span>`;
-  root.appendChild(sr);
-  sr.querySelector("#dailyLimitInp").addEventListener("change", e=>{
-    const v = Number(e.target.value)||180;
-    ui.dailyLimit = Math.max(30, v);
-    saveAll(); render();
-  });
-
   // Groups
   const filtered = tasks.filter(passListFilter);
   const groups = groupByDate(filtered);
@@ -1347,37 +1405,11 @@ function renderTodayView(root){
     }
   }
 
-  // Backup box
-  const bk=document.createElement("div");
-  bk.className="backup-box";
-  bk.innerHTML=`
-    <div class="lb"><span>💾</span> バックアップ</div>
-    <div class="btns">
-      <button type="button" id="exportBtn">📤 書き出し</button>
-      <button type="button" id="importBtn">📥 読み込み</button>
-    </div>
-    <div class="hint">JSONファイルとしてタスク・スタンプ・テスト・資料棚もまとめて保存します。定期的にDrive等に置いておくと安心。</div>`;
-  root.appendChild(bk);
-  bk.querySelector("#exportBtn").addEventListener("click", exportData);
-  bk.querySelector("#importBtn").addEventListener("click", ()=>$("#restoreFile").click());
-
-  // Help
-  const help=document.createElement("details");
-  help.className="help";
-  help.innerHTML=`<summary>💡 つかいかた</summary>
-    <div class="body">
-      <b>基本の流れ:</b> ① 右下 <b>＋</b> でやること登録（<code>まとめて</code> で一括登録可） → ② 🗓カレンダーで配分 or 🌈均等配分 → ③ 毎日消化 → ④ 終わったらスタンプ 🌸<br><br>
-      <b>丸ボタン</b>: 未着手 → 着手中 → 完了 と1タップで回る<br>
-      <b>タスクをタップ</b>: 詳細編集<br>
-      <b>カレンダーの日付タップ</b>: スタンプ選び & その日のタスク管理<br>
-      <b>📎 資料棚</b>: ヘッダーの📎から。よく使うリンクをタップで開ける<br>
-      <b>🎯 テスト</b>: 下タブから複数テストを管理。範囲・カウントダウン・進捗まで<br>
-      <b>⏱ 合計◯分</b>: 各日の見積合計。上限を超えると赤色で警告<br>
-      <b>完了を隠す</b>: 済んだタスクを一覧から一時的に非表示に（カレンダーには影響なし）<br>
-      <b>💾 バックアップ</b>: 書き出し→JSON保存 / 読み込み→JSON復元<br>
-      <b>データ</b>: <code>localStorage</code> にこのブラウザで保存
-    </div>`;
-  root.appendChild(help);
+  // Hint pointing to settings
+  const hint=document.createElement("div");
+  hint.style.cssText="text-align:center;color:var(--muted);font-size:11px;font-weight:600;margin-top:14px;padding:0 8px;line-height:1.6";
+  hint.innerHTML=`💡 バックアップ・使い方・上限設定は 右上の <b style="color:var(--pink-deep)">⚙</b> から`;
+  root.appendChild(hint);
 }
 function renderTopTiles(){
   const tiles=$("#tiles"); if(!tiles) return;
@@ -1959,6 +1991,31 @@ function closeComplete(){ $("#completeModalBg").classList.remove("on"); }
 function closeLinkModal(){ $("#linkModalBg").classList.remove("on"); }
 function closeLinkEdit(){ $("#linkEditModalBg").classList.remove("on"); linkEditingId=null; }
 function closeTestEdit(){ $("#testEditModalBg").classList.remove("on"); testEditingId=null; }
+function closeSettings(){ $("#settingsModalBg").classList.remove("on"); }
+
+/* ==============================================================
+   Settings modal
+============================================================== */
+function openSettings(){
+  $("#setDailyLimit").value = ui.dailyLimit;
+  $("#settingsModalBg").classList.add("on");
+}
+$("#settingsBtn").addEventListener("click", ()=>{ vib(6); openSettings(); });
+$("#setDailyLimit").addEventListener("change", e=>{
+  const v = Number(e.target.value)||180;
+  ui.dailyLimit = Math.max(30, v);
+  saveAll(); render();
+  vib(6);
+});
+$("#setExportBtn").addEventListener("click", exportData);
+$("#setImportBtn").addEventListener("click", ()=>$("#restoreFile").click());
+$("#setResetBtn").addEventListener("click", ()=>{
+  if(!confirm("本当に全データを消しますか？（元に戻せません）")) return;
+  if(!confirm("最終確認：本当に消してよいですか？\n\n事前に「📤 書き出し」でバックアップを取ることを強く推奨します")) return;
+  localStorage.clear();
+  vib([50,30,50]);
+  location.reload();
+});
 
 $("#editStatusChips").addEventListener("click", e=>{
   const b=e.target.closest("button[data-st]"); if(!b) return;
@@ -2202,7 +2259,7 @@ document.addEventListener("click", e=>{
   }
   if(e.target.hasAttribute("data-close")){
     closeEdit(); closeDayModal(); closeComplete(); closeAdd();
-    closeLinkModal(); closeLinkEdit(); closeTestEdit();
+    closeLinkModal(); closeLinkEdit(); closeTestEdit(); closeSettings();
     return;
   }
   if(e.target.classList.contains("modal-bg")){
@@ -2213,6 +2270,7 @@ document.addEventListener("click", e=>{
     if(e.target.id==="linkModalBg")      closeLinkModal();
     if(e.target.id==="linkEditModalBg")  closeLinkEdit();
     if(e.target.id==="testEditModalBg")  closeTestEdit();
+    if(e.target.id==="settingsModalBg")  closeSettings();
   }
 });
 
@@ -2237,7 +2295,7 @@ document.addEventListener("keydown", e=>{
   }
   if(e.key==="Escape"){
     closeEdit(); closeDayModal(); closeComplete(); closeAdd();
-    closeLinkModal(); closeLinkEdit(); closeTestEdit();
+    closeLinkModal(); closeLinkEdit(); closeTestEdit(); closeSettings();
   }
   if(e.key==="n" && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement.tagName!=="INPUT" && document.activeElement.tagName!=="TEXTAREA"){
     e.preventDefault(); openAddModal();
