@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffc9dc"/>
+      <stop offset="1" stop-color="#ff7aa8"/>
+    </linearGradient>
+    <linearGradient id="book" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#fff0f5"/>
+    </linearGradient>
+  </defs>
+  <!-- Full bleed for maskable safe zone -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g transform="translate(256 256) scale(0.72)">
+    <g transform="translate(-140 -100)">
+      <rect x="0" y="0" width="280" height="200" rx="18" fill="url(#book)" stroke="#ff9ec1" stroke-width="6"/>
+      <line x1="140" y1="10" x2="140" y2="190" stroke="#ff9ec1" stroke-width="4" stroke-linecap="round"/>
+      <line x1="24" y1="46" x2="120" y2="46" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <line x1="24" y1="76" x2="120" y2="76" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <line x1="24" y1="106" x2="100" y2="106" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <line x1="24" y1="136" x2="120" y2="136" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="180" cy="62" r="16" fill="#5fc99a"/>
+      <path d="M172 62 l6 6 l12 -12" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="204" y1="60" x2="256" y2="60" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="180" cy="106" r="16" fill="#ffe083"/>
+      <line x1="204" y1="104" x2="256" y2="104" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="180" cy="150" r="16" fill="#ffffff" stroke="#ff9ec1" stroke-width="4"/>
+      <line x1="204" y1="148" x2="256" y2="148" stroke="#ffc9dc" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <g transform="translate(120 -140)">
+      <circle cx="0" cy="0" r="28" fill="#ff9ec1"/>
+      <circle cx="-22" cy="-12" r="16" fill="#ffb3c7"/>
+      <circle cx="22" cy="-12" r="16" fill="#ffb3c7"/>
+      <circle cx="-14" cy="18" r="16" fill="#ffb3c7"/>
+      <circle cx="14" cy="18" r="16" fill="#ffb3c7"/>
+      <circle cx="0" cy="0" r="8" fill="#ffe083"/>
+    </g>
+  </g>
+</svg>
