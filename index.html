@@ -27,8 +27,8 @@
     --border-soft:#fef0f4;
     --border-strong:#f7c9d5;
     --text:#4a3f56;
-    --sub:#7a6e83;
-    --muted:#b7a7bd;
+    --sub:#6a5e73;
+    --muted:#8f7a92;
     --pink:#ff9ec1;
     --pink-soft:#ffd7e5;
     --pink-deep:#ff7aa8;
@@ -48,6 +48,7 @@
     --nav-h:62px;
     --safe-b:env(safe-area-inset-bottom,0px);
     --safe-t:env(safe-area-inset-top,0px);
+    --ring:0 0 0 3px rgba(255,122,168,.35);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html{touch-action:manipulation}
@@ -61,6 +62,17 @@
   button{cursor:pointer;touch-action:manipulation;border:0;background:transparent}
   input,select,textarea{font-size:16px;background:#fff}
   input[type=date],input[type=number]{-webkit-appearance:none}
+
+  /* ==== Focus-visible ring ==== */
+  button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{
+    outline:none;box-shadow:var(--ring)
+  }
+  .fab:focus-visible{box-shadow:0 0 0 4px #fff,0 0 0 7px var(--pink-deep)}
+  .task .status:focus-visible{box-shadow:0 0 0 4px rgba(255,122,168,.4)}
+  .bnav button:focus-visible{box-shadow:inset 0 0 0 2px var(--pink-deep)}
+
+  /* inert polyfill visual */
+  [inert]{pointer-events:none}
 
   /* ==================== App shell ==================== */
   .app-header{position:sticky;top:0;z-index:20;
@@ -86,7 +98,7 @@
   .main{max-width:720px;margin:0 auto;padding:12px 10px;
     padding-left:max(10px,env(safe-area-inset-left));padding-right:max(10px,env(safe-area-inset-right))}
 
-  /* ==================== Tiles ==================== */
+  /* Tiles */
   .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
   .tile{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;padding:10px 8px;
     text-align:center;box-shadow:var(--shadow);position:relative}
@@ -112,7 +124,7 @@
   /* Hide-done toggle */
   .hide-done{display:flex;align-items:center;gap:10px;background:var(--panel);border:1.5px solid var(--border);border-radius:14px;padding:10px 14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;min-height:44px}
   .hide-done:active{background:#fef7f9}
-  .hide-done .sw{width:38px;height:22px;background:#e5d6dc;border-radius:12px;position:relative;transition:background .2s;flex-shrink:0}
+  .hide-done .sw{width:38px;height:22px;background:#c5b5c7;border-radius:12px;position:relative;transition:background .2s;flex-shrink:0}
   .hide-done .sw::after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
   .hide-done.on .sw{background:var(--pink)}
   .hide-done.on .sw::after{left:19px}
@@ -120,21 +132,26 @@
   .hide-done .cnt{font-size:11px;color:var(--muted);font-weight:600}
   .hide-done.on .lb{color:var(--pink-deep)}
 
-  /* ==================== Group / Task ==================== */
+  /* Category segment (Library view) */
+  .cat-seg{display:flex;gap:6px;background:#fef2f6;border-radius:14px;padding:4px;margin-bottom:12px}
+  .cat-seg button{flex:1;padding:10px;border-radius:10px;font-weight:800;font-size:13px;color:var(--muted);background:transparent;min-height:42px}
+  .cat-seg button.on{background:#fff;color:var(--pink-deep);box-shadow:0 2px 6px rgba(255,158,193,.2)}
+
+  /* Group / Task */
   .group{background:var(--panel);border:1.5px solid var(--border);border-radius:18px;
     margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
   .group>h2{margin:0;padding:11px 14px;font-size:13px;background:linear-gradient(180deg,#fff,#fef7f9);
     border-bottom:1px solid var(--border-soft);display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:800}
   .group>h2 .count{color:var(--muted);font-weight:500;font-size:12px}
   .group>h2 .day-hours{font-size:11px;font-weight:800;color:var(--sub);background:var(--pink-soft);padding:2px 8px;border-radius:10px;letter-spacing:.3px}
-  .group>h2 .day-hours.over{background:var(--coral-soft);color:#c14b3a}
+  .group>h2 .day-hours.over{background:var(--coral-soft);color:#a83250}
   .group>h2 .day-hours .done-min{color:var(--mint-deep);margin-left:4px;font-weight:700}
   .group>h2 .bar-mini{flex:1;min-width:80px;max-width:220px;height:8px;background:var(--pink-soft);border-radius:4px;overflow:hidden}
   .group>h2 .bar-mini>span{display:block;height:100%;background:linear-gradient(90deg,#ffb3c7,#ff9ec1);border-radius:4px;transition:width .5s}
-  .group.today>h2{background:linear-gradient(135deg,#fff8dc,#ffefb0);color:#8a5a00}
-  .group.tomorrow>h2{background:linear-gradient(135deg,#e4f2fb,#cfe8f6);color:#1e5f8a}
-  .group.overdue>h2{background:linear-gradient(135deg,#ffe0e6,#ffcfd8);color:#a83250}
-  .group.unassigned>h2{background:linear-gradient(135deg,#fff0f4,#ffe0e8);color:#a83250}
+  .group.today>h2{background:linear-gradient(135deg,#fff8dc,#ffefb0);color:#7a4f00}
+  .group.tomorrow>h2{background:linear-gradient(135deg,#e4f2fb,#cfe8f6);color:#134a70}
+  .group.overdue>h2{background:linear-gradient(135deg,#ffe0e6,#ffcfd8);color:#8a2542}
+  .group.unassigned>h2{background:linear-gradient(135deg,#fff0f4,#ffe0e8);color:#8a2542}
 
   .task{display:grid;grid-template-columns:38px 1fr;grid-template-rows:auto auto;gap:6px 10px;
     padding:12px 14px;border-bottom:1px solid var(--border-soft);align-items:center;position:relative;transition:background .15s}
@@ -158,7 +175,7 @@
   .task .top{grid-column:2;grid-row:1;display:flex;align-items:center;gap:8px}
   .task .pri{font-size:10px;padding:2px 8px;border-radius:10px;text-align:center;white-space:nowrap;font-weight:800;letter-spacing:.5px}
   .task .pri.hi{background:linear-gradient(135deg,#ff9ec1,#ff7aa8);color:#fff}
-  .task .pri.mid{background:linear-gradient(135deg,#ffe083,#ffc978);color:#8a5a00}
+  .task .pri.mid{background:linear-gradient(135deg,#ffe083,#ffc978);color:#7a4f00}
   .task .pri.lo{background:#f0e7ee;color:var(--muted)}
   .task .top .subject{font-weight:800;color:var(--text);font-size:15px}
   .task .top .edit-hit{margin-left:auto;padding:6px 10px;font-size:12px;color:var(--muted);border-radius:10px;font-weight:700;min-height:32px}
@@ -169,8 +186,8 @@
   .task .body .range{color:var(--muted);font-size:12px}
   .task .body .meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
   .task .body .meta .tag{padding:2px 8px;border:1px solid var(--border);border-radius:10px;background:#fffcfe;font-size:11px;font-weight:600}
-  .task .body .meta .tag.review{border-color:var(--yellow);background:var(--yellow-soft);color:#8a5a00}
-  .task .body .meta .tag.test{border-color:var(--sky);background:var(--sky-soft);color:var(--sky-deep)}
+  .task .body .meta .tag.review{border-color:var(--yellow);background:var(--yellow-soft);color:#7a4f00}
+  .task .body .meta .tag.test{border-color:var(--sky);background:var(--sky-soft);color:#134a70}
   .task .body .memo{font-size:12px;color:var(--sub);white-space:pre-wrap;margin-top:3px}
 
   .plus1{position:absolute;color:var(--mint-deep);font-weight:800;font-size:22px;pointer-events:none;
@@ -180,7 +197,7 @@
   .empty{padding:32px 12px;text-align:center;color:var(--muted);font-size:14px}
   .empty .em-ic{font-size:44px;margin-bottom:8px;opacity:.7}
 
-  /* ==================== Calendar ==================== */
+  /* Calendar */
   .cal-head{display:flex;align-items:center;gap:6px;padding:10px 12px;background:var(--panel);
     border:1.5px solid var(--border);border-radius:16px;margin-bottom:10px;box-shadow:var(--shadow)}
   .cal-head button{padding:8px 12px;border:1.5px solid var(--border);background:#fff;border-radius:12px;min-height:40px;font-weight:800;color:var(--sub);min-width:44px}
@@ -211,7 +228,7 @@
   .cal .cell .n{font-size:9px;background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;border-radius:8px;padding:1px 4px;min-width:14px;text-align:center;font-weight:700;line-height:1.3;flex-shrink:0}
   .cal .cell .n.alldone{background:linear-gradient(135deg,#9ee0c4,#5fc99a)}
   .cal .cell .mins{position:absolute;bottom:2px;right:2px;font-size:8.5px;color:var(--sub);font-weight:800;background:rgba(255,255,255,.85);padding:0 3px;border-radius:5px;line-height:1.4;letter-spacing:0;max-width:calc(100% - 4px);overflow:hidden}
-  .cal .cell .mins.over{background:rgba(255,163,138,.85);color:#a83250}
+  .cal .cell .mins.over{background:rgba(255,163,138,.85);color:#8a2542}
   .cal .cell .stamp{position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);font-size:26px;line-height:1;filter:drop-shadow(0 2px 4px rgba(255,158,193,.35));animation:stampPop .4s ease-out;pointer-events:none}
   @keyframes stampPop{0%{transform:translate(-50%,-50%) scale(0) rotate(-20deg)}70%{transform:translate(-50%,-50%) scale(1.2) rotate(8deg)}100%{transform:translate(-50%,-50%) scale(1) rotate(0)}}
   .cal .cell .signal{position:absolute;top:2px;right:4px;font-size:11px;animation:blink 1.6s ease-in-out infinite;pointer-events:none}
@@ -234,17 +251,17 @@
   .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
   .filters select{padding:9px 14px;border:1.5px solid var(--border);border-radius:14px;background:#fff;min-height:42px;font-weight:600;color:var(--sub);flex:1;min-width:140px}
 
-  /* ==================== Bottom Nav (5 tabs) ==================== */
+  /* Bottom Nav (4 tabs) */
   .bnav{position:fixed;bottom:0;left:0;right:0;z-index:30;
     background:rgba(255,255,255,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border-top:1.5px solid var(--border);
     display:flex;padding-bottom:var(--safe-b);
     box-shadow:0 -4px 20px rgba(255,158,193,.15)}
   .bnav button{flex:1;padding:6px 2px;background:transparent;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
-    color:var(--muted);font-size:9.5px;font-weight:800;min-height:var(--nav-h);letter-spacing:.2px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    color:var(--muted);font-size:11px;font-weight:800;min-height:var(--nav-h);letter-spacing:.2px;
     transition:color .15s;position:relative}
-  .bnav button .ic{font-size:21px;line-height:1;transition:transform .2s}
+  .bnav button .ic{font-size:22px;line-height:1;transition:transform .2s}
   .bnav button:active .ic{transform:scale(.9)}
   .bnav button.on{color:var(--pink-deep)}
   .bnav button.on .ic{transform:scale(1.15);filter:drop-shadow(0 2px 4px rgba(255,158,193,.5))}
@@ -263,7 +280,7 @@
   .fab:active{transform:scale(.88)}
   .fab .p{margin-top:-4px}
 
-  /* ==================== Modal ==================== */
+  /* Modal */
   .modal-bg{position:fixed;inset:0;background:rgba(74,63,86,.35);display:none;
     align-items:flex-end;justify-content:center;z-index:100;
     backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)}
@@ -272,7 +289,7 @@
     max-height:92vh;overflow:auto;box-shadow:0 -20px 50px rgba(74,63,86,.25);
     padding-bottom:calc(22px + var(--safe-b));animation:up .28s cubic-bezier(.2,.9,.3,1.2)}
   @keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:translateY(0);opacity:1}}
-  .modal .handle{width:44px;height:5px;background:#e5d6dc;border-radius:3px;margin:6px auto 12px}
+  .modal .handle{width:44px;height:5px;background:#d0c0c8;border-radius:3px;margin:6px auto 12px}
   .modal h3{margin:0 0 14px 0;font-size:18px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .modal h3 .close{background:transparent;font-size:28px;color:var(--muted);padding:6px 12px;line-height:.8;border-radius:12px;font-weight:400;min-width:44px;min-height:44px}
   .modal h3 .close:active{background:var(--pink-soft);color:var(--pink-deep)}
@@ -292,12 +309,12 @@
   .pri-chips{display:flex;gap:6px}
   .pri-chips button{flex:1;padding:10px;background:#fff;border:1.5px solid var(--border);border-radius:14px;font-size:13px;font-weight:700;color:var(--sub);min-height:44px}
   .pri-chips button.on.hi{background:linear-gradient(135deg,#ff9ec1,#ff7aa8);color:#fff;border-color:var(--pink)}
-  .pri-chips button.on.mid{background:linear-gradient(135deg,#ffe083,#ffc978);color:#8a5a00;border-color:#f0b040}
+  .pri-chips button.on.mid{background:linear-gradient(135deg,#ffe083,#ffc978);color:#7a4f00;border-color:#f0b040}
   .pri-chips button.on.lo{background:#f0e7ee;color:var(--sub);border-color:var(--border-strong)}
   .status-chips{display:flex;gap:6px}
   .status-chips button{flex:1;padding:10px;background:#fff;border:1.5px solid var(--border);border-radius:14px;font-size:13px;font-weight:700;color:var(--sub);min-height:44px}
   .status-chips button.on.todo{background:#f3f0f3;color:var(--sub);border-color:var(--border-strong)}
-  .status-chips button.on.doing{background:linear-gradient(135deg,#ffe083,#ffc978);color:#8a5a00;border-color:#f0b040}
+  .status-chips button.on.doing{background:linear-gradient(135deg,#ffe083,#ffc978);color:#7a4f00;border-color:#f0b040}
   .status-chips button.on.done{background:linear-gradient(135deg,#9ee0c4,#5fc99a);color:#fff;border-color:var(--mint-deep)}
   .modal-detail-toggle{background:transparent;color:var(--pink-deep);font-weight:700;font-size:13px;padding:8px 4px;margin:6px 0 0;text-align:left;min-height:36px}
   .modal-detail{display:none;padding-top:6px;border-top:1px dashed var(--border);margin-top:6px}
@@ -309,7 +326,7 @@
   .modal-danger{padding:9px 16px;background:#fff;border:1.5px solid var(--pink-soft);color:var(--pink-deep);border-radius:14px;font-weight:700;min-height:44px}
   .modal-danger:active{background:var(--pink-soft)}
 
-  /* Bulk mode tabs inside add modal */
+  /* Bulk mode */
   .bulk-tabs{display:flex;gap:6px;background:#fef2f6;border-radius:14px;padding:4px;margin-bottom:12px}
   .bulk-tabs button{flex:1;padding:9px;border-radius:10px;font-weight:800;font-size:13px;color:var(--muted);background:transparent;min-height:40px}
   .bulk-tabs button.on{background:#fff;color:var(--pink-deep);box-shadow:0 2px 6px rgba(255,158,193,.2)}
@@ -322,7 +339,7 @@
   .bulk-preview .row b{color:var(--text);font-weight:800}
   .bulk-preview .row .m{color:var(--sub);font-weight:600}
   .bulk-preview .row .r{color:var(--muted);font-size:12px}
-  .bulk-preview .row.no-mat{opacity:.55}
+  .bulk-preview .row.no-mat{opacity:.7}
   .bulk-preview .empty{color:var(--muted);text-align:center;padding:12px}
 
   /* Stamp panel */
@@ -352,9 +369,9 @@
   .sp-palette .p{padding:6px 10px;font-size:26px;background:#fffcfe;border:1.5px solid var(--border-soft);
     border-radius:12px;line-height:1;min-height:48px;min-width:48px;position:relative}
   .sp-palette .p:active{background:var(--pink-soft);border-color:var(--pink);transform:scale(.92)}
-  .sp-palette .p.fav::after{content:"★";position:absolute;top:-3px;right:-3px;font-size:11px;color:#f0b040;background:#fff;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+  .sp-palette .p.fav::after{content:"★";position:absolute;top:-3px;right:-3px;font-size:11px;color:#c88010;background:#fff;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.15)}
   .sp-palette .p.picked{background:linear-gradient(135deg,#ffe0ec,#ffcadd);border-color:var(--pink)}
-  .sp-fav-toggle{padding:8px 12px;font-size:12px;background:linear-gradient(135deg,#fff3e0,#ffd7c2);border:1.5px solid #ffb08a;color:#a06a30;border-radius:12px;font-weight:800;margin-top:8px;width:100%;min-height:40px}
+  .sp-fav-toggle{padding:8px 12px;font-size:12px;background:linear-gradient(135deg,#fff3e0,#ffd7c2);border:1.5px solid #ffb08a;color:#8a4a1a;border-radius:12px;font-weight:800;margin-top:8px;width:100%;min-height:40px}
 
   .section-title{font-size:12px;font-weight:800;color:var(--muted);margin:14px 0 6px;letter-spacing:.5px;padding:0 4px;display:flex;align-items:center;gap:6px}
   .day-tasks .empty{padding:20px 10px}
@@ -371,27 +388,15 @@
   .banner{position:fixed;top:calc(12px + var(--safe-t));left:50%;transform:translateX(-50%);
     background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;padding:12px 22px;
     border-radius:24px;font-weight:800;box-shadow:0 8px 28px rgba(255,158,193,.4);z-index:200;
-    animation:slideDown .4s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:8px;font-size:14px;
+    animation:slideDown .4s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;font-size:14px;
     max-width:calc(100% - 24px);text-align:center}
   .banner.warn{background:linear-gradient(135deg,#ffa38a,#ff7a5a)}
+  .banner.has-action{padding:8px 8px 8px 18px}
+  .banner .banner-action{background:rgba(255,255,255,.28);color:#fff;padding:8px 14px;border-radius:16px;font-weight:800;font-size:13px;min-height:36px;margin-left:6px;white-space:nowrap}
+  .banner .banner-action:active{background:rgba(255,255,255,.45)}
   @keyframes slideDown{from{transform:translate(-50%,-60px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
 
-  /* Help */
-  .help{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;padding:10px 16px;margin-top:12px;box-shadow:var(--shadow)}
-  .help summary{cursor:pointer;font-weight:800;font-size:13px;min-height:36px;display:flex;align-items:center;color:var(--sub);gap:6px}
-  .help[open] summary{color:var(--pink-deep)}
-  .help .body{padding-top:10px;font-size:13px;line-height:1.75;color:var(--sub)}
-  .help .body code{background:#fef2f6;padding:2px 6px;border-radius:6px;font-size:12px;color:var(--pink-deep)}
-
-  /* Backup */
-  .backup-box{background:var(--panel);border:1.5px solid var(--border);border-radius:16px;padding:12px 14px;margin-top:12px;box-shadow:var(--shadow)}
-  .backup-box .lb{font-size:12px;color:var(--muted);font-weight:800;margin-bottom:8px;letter-spacing:.3px;display:flex;align-items:center;gap:6px}
-  .backup-box .btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .backup-box .btns button{padding:11px;border:1.5px solid var(--border);border-radius:12px;background:#fff;font-weight:800;color:var(--sub);min-height:44px;font-size:13px}
-  .backup-box .btns button:active{background:var(--pink-soft);border-color:var(--pink);color:var(--pink-deep)}
-  .backup-box .hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
-
-  /* Settings modal sections */
+  /* Backup / settings sections */
   .set-sec{background:#fff8fb;border:1.5px solid var(--border-soft);border-radius:14px;padding:12px 14px;margin-bottom:10px}
   .set-sec.danger{background:#fff2f5;border-color:var(--pink-soft)}
   .set-sec .st-title{font-size:13px;font-weight:800;color:var(--pink-deep);margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:.3px}
@@ -407,7 +412,7 @@
   .set-sec .st-danger{width:100%;padding:12px;background:#fff;border:1.5px solid var(--pink-soft);color:var(--pink-deep);border-radius:12px;font-weight:800;min-height:46px}
   .set-sec .st-danger:active{background:var(--pink-soft)}
 
-  /* ==================== Resource shelf (links) ==================== */
+  /* Resource shelf */
   #linkModalBg .modal{width:min(600px,100%)}
   .link-tools{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
   .link-tools input[type=search]{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:14px;min-height:42px;min-width:160px;background:#fff}
@@ -429,7 +434,7 @@
   .link-empty{padding:40px 20px;text-align:center;color:var(--muted);background:#fef7f9;border:1.5px dashed var(--pink-soft);border-radius:16px}
   .link-empty .em-ic{font-size:44px;margin-bottom:10px}
 
-  /* ==================== Test view ==================== */
+  /* Test view */
   .test-list{display:flex;flex-direction:column;gap:10px}
   .test-card{background:var(--panel);border:1.5px solid var(--border);border-radius:18px;padding:14px;box-shadow:var(--shadow);position:relative}
   .test-card.urgent{background:linear-gradient(135deg,#fff0f0,#ffdcdc);border-color:var(--coral)}
@@ -438,7 +443,7 @@
   .test-card .th .name{font-size:17px;font-weight:800;flex:1;min-width:120px}
   .test-card .th .cd{background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;padding:4px 12px;border-radius:14px;font-size:13px;font-weight:800;white-space:nowrap}
   .test-card.urgent .th .cd{background:linear-gradient(135deg,#ff9ec1,#ff7aa8);animation:blink 1.4s ease-in-out infinite}
-  .test-card.past .th .cd{background:#c4b8c4}
+  .test-card.past .th .cd{background:#a89aa8}
   .test-card .date{color:var(--sub);font-size:12px;font-weight:700;margin-bottom:8px}
   .test-card .range{background:#fff8fb;border:1px dashed var(--border);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--sub);white-space:pre-wrap;margin-bottom:10px;max-height:120px;overflow:auto}
   .test-card .prog{display:flex;align-items:center;gap:8px;margin-bottom:10px}
@@ -452,7 +457,7 @@
   .add-test-btn{width:100%;padding:14px;background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff;border-radius:16px;font-weight:800;min-height:52px;box-shadow:0 4px 12px rgba(255,158,193,.4);font-size:15px;margin-bottom:12px;letter-spacing:.5px}
   .add-test-btn:active{filter:brightness(1.05)}
 
-  /* ==================== Desktop ==================== */
+  /* Desktop */
   @media (min-width:720px){
     body{padding-bottom:20px}
     .app-header{padding:12px 20px 10px}
@@ -478,46 +483,168 @@
     .modal{border-radius:22px;max-height:calc(100vh - 40px);padding:16px 20px 20px}
     .modal .handle{display:none}
   }
+
+  /* ============================================================
+     Dark mode
+  ============================================================ */
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#241a24;
+      --bg2:#2c1e2b;
+      --panel:#33253a;
+      --border:#4a3752;
+      --border-soft:#3d2d43;
+      --border-strong:#6a4d70;
+      --text:#f5e6ef;
+      --sub:#d5bccd;
+      --muted:#a08fa8;
+      --pink-soft:#552a3f;
+      --shadow:0 2px 10px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.2);
+    }
+    body{background:linear-gradient(180deg,#241a24,#2c1e2b 60%,#241a24)}
+    input,select,textarea{background:#3a2b43;color:var(--text);border-color:#4a3752}
+    input::placeholder{color:#8a7a90}
+    .app-header{background:rgba(36,26,36,.85);border-bottom-color:#4a3752}
+    .hdr .testchip{background:linear-gradient(135deg,#3d2438,#4a2b45);border-color:#552a3f;color:#ffb3c7}
+    .hdr .testchip.urgent{background:linear-gradient(135deg,#5a2a2a,#4d2020);border-color:var(--coral);color:#ffb3a0}
+    .hdr .icon-btn{background:#3a2b43;color:#ffb3c7;border-color:#552a3f}
+    .hdr-progress .bar{background:#3a2b43}
+    .hdr-progress .rate{color:var(--text)}
+    .modal{background:#33253a;box-shadow:0 -20px 50px rgba(0,0,0,.5)}
+    .modal-bg{background:rgba(0,0,0,.55)}
+    .modal .handle{background:#5a4562}
+    .modal .field input,.modal .field select,.modal .field textarea{background:#3a2b43;color:var(--text);border-color:#4a3752}
+    .modal .field input:focus,.modal .field select:focus,.modal .field textarea:focus{outline-color:#7a3a55;background:#3d2d43}
+    .modal-secondary{background:#3a2b43;color:var(--sub);border-color:#4a3752}
+    .modal-danger{background:#3a2b43}
+    .cal{background:#33253a;border-color:#4a3752}
+    .cal .cell{background:#3a2b43;border-color:#4a3752}
+    .cal .cell.outside{background:#2b1e30}
+    .cal .cell.today{background:linear-gradient(135deg,#4a2f42,#552a3f);border-color:var(--pink)}
+    .cal .cell.testday{background:linear-gradient(135deg,#5a2828,#4d2020);border-color:var(--coral)}
+    .cal .cell.stamped{background:linear-gradient(135deg,#5a4028,#5a3820);border-color:#8a6828}
+    .cal .cell.stamped.today{background:linear-gradient(135deg,#5a3a2e,#5a3028)}
+    .cal .cell .mins{background:rgba(58,43,67,.9);color:var(--text)}
+    .cal .cell .mins.over{background:rgba(255,140,110,.9);color:#fff}
+    .cal-head{background:#33253a;border-color:#4a3752}
+    .cal-head button{background:#3a2b43;color:var(--sub);border-color:#4a3752}
+    .cal-footer .box{background:#3a2b43;border-color:#4a3752}
+    .cal-footer .box.stamps{background:linear-gradient(135deg,#4a2540,#3d1e35);border-color:var(--pink)}
+    .cal-footer .box.streak.on{background:linear-gradient(135deg,#5a4028,#4a3620);border-color:#8a6a3a}
+    .bnav{background:rgba(36,26,36,.96);border-top-color:#4a3752;box-shadow:0 -4px 20px rgba(0,0,0,.35)}
+    .group{background:#33253a;border-color:#4a3752}
+    .group>h2{background:linear-gradient(180deg,#33253a,#3a2b43);border-bottom-color:#4a3752}
+    .group.today>h2{background:linear-gradient(135deg,#5a4520,#3a2f10);color:#ffd7a0}
+    .group.tomorrow>h2{background:linear-gradient(135deg,#1e3d55,#173045);color:#a8d8ee}
+    .group.overdue>h2{background:linear-gradient(135deg,#5a2530,#3d1e2a);color:#ffb3c7}
+    .group.unassigned>h2{background:linear-gradient(135deg,#5a2530,#3d1e2a);color:#ffb3c7}
+    .group>h2 .day-hours{background:#4a3752;color:var(--text)}
+    .group>h2 .day-hours.over{background:#5a2828;color:#ffb3a0}
+    .task{border-bottom-color:#3d2d43}
+    .task:active{background:#3d2d43}
+    .task.done{background:#2f2136}
+    .task .status{background:#3a2b43;border-color:#6a4d70}
+    .task .top .subject{color:var(--text)}
+    .task .body .line{color:var(--sub)}
+    .task .body .memo{color:var(--sub)}
+    .task .body .meta .tag{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .task .body .meta .tag.review{background:#5a4520;border-color:#8a6828;color:#ffe083}
+    .task .body .meta .tag.test{background:#1e3d55;border-color:#3a6588;color:#a8d8ee}
+    .set-sec{background:#3a2b43;border-color:#4a3752}
+    .set-sec.danger{background:#4a2530;border-color:#7a3a55}
+    .set-sec input[type=number]{background:#33253a;color:var(--text)}
+    .set-sec .st-btns button{background:#33253a;color:var(--sub);border-color:#4a3752}
+    .set-sec .st-help code{background:#4a3752;color:#ffb3c7}
+    .set-sec .st-help b{color:var(--text)}
+    .set-sec .st-danger{background:#33253a}
+    .test-card{background:#33253a;border-color:#4a3752}
+    .test-card.urgent{background:linear-gradient(135deg,#5a2530,#3d1e2a);border-color:var(--coral)}
+    .test-card.past{background:#2f2136}
+    .test-card .range{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .test-card .prog .b{background:#552a3f}
+    .test-card .btns button{background:#33253a;color:var(--sub);border-color:#4a3752}
+    .link-item{background:#33253a;border-color:#4a3752}
+    .link-item .info .t{color:var(--text)}
+    .link-item .info .u{color:#8a7a90}
+    .link-empty{background:#3a2b43;border-color:#552a3f}
+    .link-tools input[type=search]{background:#3a2b43;color:var(--text)}
+    .link-tag-chips .chip{background:#33253a;color:var(--sub);border-color:#4a3752}
+    .stamp-panel{background:linear-gradient(135deg,#3d2438,#4a2b45);border-color:var(--pink)}
+    .stamp-current{background:#33253a;border-color:var(--pink)}
+    .sp-favs .favbtn{background:#33253a;border-color:#4a3752}
+    .sp-palette{background:#33253a;border-color:#4a3752}
+    .sp-palette .p{background:#3a2b43;border-color:#4a3752}
+    .sp-palette .p.fav::after{background:#3a2b43}
+    .sp-more{color:#ffb3c7;border-color:#552a3f}
+    .bulk-tabs{background:#3a2b43}
+    .bulk-tabs button.on{background:#4a3752;color:#ffb3c7}
+    .bulk-preview{background:#33253a;border-color:#552a3f;color:var(--text)}
+    .bulk-preview .row b{color:var(--text)}
+    .cat-seg{background:#3a2b43}
+    .cat-seg button.on{background:#4a3752;color:#ffb3c7}
+    .hide-done{background:#33253a;border-color:#4a3752}
+    .hide-done .sw{background:#5a4562}
+    .warnbar{background:linear-gradient(135deg,#5a2530,#3d1e2a);border-color:#7a3a55;color:#ffb3c7}
+    .warnbar button{background:#33253a;color:#ffb3c7;border-color:var(--pink)}
+    .warnbar button.pri{background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff}
+    .tile{background:#33253a;border-color:#4a3752}
+    .tile.streak.on{background:linear-gradient(135deg,#5a4028,#4a3620);border-color:#8a6a3a}
+    .tile.today.hasdone{background:linear-gradient(135deg,#1e4d38,#153d2a);border-color:#5fc99a}
+    .tile.stamps.hasany{background:linear-gradient(135deg,#4a2540,#3d1e35);border-color:var(--pink)}
+    .filters select{background:#3a2b43;color:var(--sub);border-color:#4a3752}
+    .recent-chips button{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .date-chips button{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .date-chips button.on{background:linear-gradient(135deg,#ffb3c7,#ff9ec1);color:#fff}
+    .pri-chips button{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .pri-chips button.on.lo{background:#4a3752;color:var(--text)}
+    .status-chips button{background:#3a2b43;border-color:#4a3752;color:var(--sub)}
+    .status-chips button.on.todo{background:#4a3752;color:var(--text)}
+    #completeModalBg .modal{background:linear-gradient(135deg,#5a4028,#4a3620)}
+    #completeModalBg h2{color:#ffe0a0}
+    #completeModalBg p{color:#ffd7a0}
+    .cal .cell .day{color:var(--text)}
+    .cal .cell.today .day{color:var(--pink-deep)}
+    .stamp-current .big{filter:none}
+  }
 </style>
 </head>
 <body>
 
 <!-- ===== Header ===== -->
-<header class="app-header">
+<header class="app-header" id="app-header">
   <div class="hdr">
     <span class="logo">📚</span>
     <span class="title">べんきょうノート</span>
-    <button class="icon-btn" id="linkShelfBtn" type="button" aria-label="資料棚">📎</button>
-    <button class="icon-btn" id="settingsBtn" type="button" aria-label="設定">⚙</button>
-    <button class="testchip" id="testChipBtn" type="button">
+    <button class="icon-btn" id="linkShelfBtn" type="button" aria-label="資料棚を開く">📎</button>
+    <button class="icon-btn" id="settingsBtn" type="button" aria-label="設定を開く">⚙</button>
+    <button class="testchip" id="testChipBtn" type="button" aria-label="テスト一覧を開く">
       <span class="icx">🎯</span><span class="txt" id="testChipTxt">テストなし</span>
     </button>
   </div>
   <div class="hdr-progress">
-    <div class="bar"><span id="doneBar" style="width:0%"></span></div>
+    <div class="bar" role="progressbar" aria-label="ぜんぶの進み具合" aria-valuemin="0" aria-valuemax="100"><span id="doneBar" style="width:0%"></span></div>
     <span class="rate" id="doneRate">0%</span>
   </div>
 </header>
 
 <main class="main" id="main"></main>
 
-<!-- ===== Bottom Nav (5 tabs) ===== -->
-<nav class="bnav" id="bnav">
+<!-- ===== Bottom Nav (4 tabs) ===== -->
+<nav class="bnav" id="bnav" aria-label="メインナビ">
   <button data-view="date" class="on"><span class="ic">📅</span><span>今日</span></button>
   <button data-view="calendar"><span class="ic">🗓</span><span>カレンダー</span></button>
   <button data-view="tests"><span class="ic">🎯</span><span>テスト</span></button>
-  <button data-view="subject"><span class="ic">📖</span><span>科目</span></button>
-  <button data-view="material"><span class="ic">📕</span><span>教材</span></button>
+  <button data-view="library"><span class="ic">📚</span><span>まとめ</span></button>
 </nav>
 
 <!-- ===== FAB ===== -->
-<button class="fab" id="fab" aria-label="タスク追加"><span class="p">＋</span></button>
+<button class="fab" id="fab" aria-label="タスクを追加"><span class="p">＋</span></button>
 
 <!-- ===== Add Modal ===== -->
-<div class="modal-bg" id="addModalBg">
+<div class="modal-bg" id="addModalBg" role="dialog" aria-modal="true" aria-labelledby="addModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span>＋ タスクを追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="addModalTitle"><span>＋ タスクを追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
 
     <div class="bulk-tabs" id="bulkTabs">
       <button type="button" data-bulk-mode="single" class="on">✏️ 1件ずつ</button>
@@ -525,7 +652,7 @@
     </div>
 
     <div class="field">
-      <label>🎯 テスト（任意・全モード共通）</label>
+      <label for="addTestSelect">🎯 テスト（任意・全モード共通）</label>
       <select id="addTestSelect"><option value="">なし</option></select>
     </div>
 
@@ -537,7 +664,7 @@
           <div class="recent-chips" id="addSubjChips"></div>
         </div>
         <div class="field">
-          <label>教材</label>
+          <label>教材（任意）</label>
           <input name="material" placeholder="例:青チャート">
           <div class="recent-chips" id="addMatChips"></div>
         </div>
@@ -585,7 +712,7 @@
 
       <div class="bulk-mode" id="addBulkMode">
         <div class="field">
-          <label>1行 = 1タスク。「科目 教材 範囲」の順（空白/タブ/カンマ区切り）</label>
+          <label for="bulkText">1行 = 1タスク。「科目 教材 範囲」の順（空白/タブ/カンマ区切り）</label>
           <textarea id="bulkText" placeholder="数学 青チャート p20-35&#10;英語 NextStage 第1章&#10;化学 セミナー 第3章"></textarea>
         </div>
         <div class="section-title">プレビュー（<span id="bulkCount">0</span>件）</div>
@@ -597,18 +724,18 @@
 </div>
 
 <!-- ===== Edit Modal ===== -->
-<div class="modal-bg" id="editModalBg">
+<div class="modal-bg" id="editModalBg" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span>✏️ タスク編集</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="editModalTitle"><span>✏️ タスク編集</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
     <form id="editForm" autocomplete="off">
       <div class="row2">
         <div class="field"><label>科目</label><input name="subject" required></div>
-        <div class="field"><label>教材</label><input name="material" required></div>
+        <div class="field"><label>教材（任意）</label><input name="material"></div>
       </div>
       <div class="field"><label>範囲</label><input name="range"></div>
       <div class="field">
-        <label>🎯 テスト</label>
+        <label for="editTestSelect">🎯 テスト</label>
         <select id="editTestSelect"><option value="">なし</option></select>
       </div>
       <div class="field">
@@ -656,10 +783,10 @@
 </div>
 
 <!-- ===== Day Modal ===== -->
-<div class="modal-bg" id="dayModalBg">
+<div class="modal-bg" id="dayModalBg" role="dialog" aria-modal="true" aria-labelledby="dayModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span id="dayTitle">-</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="dayModalTitle"><span id="dayTitle">-</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
     <div class="stamp-panel" id="stampPanel">
       <div class="sp-head">
         <span style="font-size:20px">🌸</span>
@@ -679,23 +806,23 @@
 </div>
 
 <!-- ===== Complete Modal ===== -->
-<div class="modal-bg" id="completeModalBg">
+<div class="modal-bg" id="completeModalBg" role="dialog" aria-modal="true" aria-labelledby="completeModalTitle">
   <div class="modal">
     <div class="handle"></div>
     <div class="big">🏆</div>
-    <h2>テスト範囲コンプリート！</h2>
+    <h2 id="completeModalTitle">テスト範囲コンプリート！</h2>
     <p>ぜんぶのタスクをやりきりました。<br>おつかれさま、すごい 🌸</p>
     <button class="modal-primary" data-close>ありがとう</button>
   </div>
 </div>
 
 <!-- ===== Resource Shelf Modal ===== -->
-<div class="modal-bg" id="linkModalBg">
+<div class="modal-bg" id="linkModalBg" role="dialog" aria-modal="true" aria-labelledby="linkModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span>📎 資料棚</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="linkModalTitle"><span>📎 資料棚</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
     <div class="link-tools">
-      <input type="search" id="linkSearch" placeholder="🔍 タイトル/タグで検索">
+      <input type="search" id="linkSearch" placeholder="🔍 タイトル/タグで検索" aria-label="資料を検索">
       <button class="add" id="linkAddBtn" type="button">＋ 追加</button>
     </div>
     <div class="link-tag-chips" id="linkTagChips"></div>
@@ -704,10 +831,10 @@
 </div>
 
 <!-- ===== Link Edit Modal ===== -->
-<div class="modal-bg" id="linkEditModalBg">
+<div class="modal-bg" id="linkEditModalBg" role="dialog" aria-modal="true" aria-labelledby="linkEditModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span id="linkEditTitle">＋ 資料を追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="linkEditModalTitle"><span id="linkEditTitle">＋ 資料を追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
     <form id="linkEditForm" autocomplete="off">
       <div class="field"><label>タイトル</label><input name="title" required placeholder="例:数学レジュメ第1章"></div>
       <div class="field"><label>URL</label><input name="url" type="url" required inputmode="url" placeholder="https://..."></div>
@@ -723,10 +850,10 @@
 </div>
 
 <!-- ===== Test Edit Modal ===== -->
-<div class="modal-bg" id="testEditModalBg">
+<div class="modal-bg" id="testEditModalBg" role="dialog" aria-modal="true" aria-labelledby="testEditModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span id="testEditTitle">🎯 テストを追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="testEditModalTitle"><span id="testEditTitle">🎯 テストを追加</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
     <form id="testEditForm" autocomplete="off">
       <div class="field"><label>テスト名</label><input name="name" required placeholder="例:数学I 中間"></div>
       <div class="field"><label>試験日</label><input name="date" type="date" required></div>
@@ -740,15 +867,15 @@
 </div>
 
 <!-- ===== Settings Modal ===== -->
-<div class="modal-bg" id="settingsModalBg">
+<div class="modal-bg" id="settingsModalBg" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
   <div class="modal">
     <div class="handle"></div>
-    <h3><span>⚙ 設定</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
+    <h3 id="settingsModalTitle"><span>⚙ 設定</span><button type="button" class="close" data-close aria-label="閉じる">×</button></h3>
 
     <div class="set-sec">
       <div class="st-title">⏱ 1日の目安時間</div>
       <div class="st-row">
-        <input type="number" id="setDailyLimit" min="30" step="30" inputmode="numeric">
+        <input type="number" id="setDailyLimit" min="30" step="30" inputmode="numeric" aria-label="1日の上限（分）">
         <span style="font-size:13px;color:var(--sub);font-weight:600">分を超えると赤色で警告</span>
       </div>
       <div class="st-hint">カレンダーのセルや日別ヘッダーに合計時間を表示。ここを超えると詰め込みすぎの合図として赤色になります</div>
@@ -771,13 +898,17 @@
         ② 🗓カレンダーで配分 or 🌈均等配分ボタン<br>
         ③ 毎日消化<br>
         ④ 終わったらスタンプ 🌸<br><br>
+        <b>タブ構成:</b><br>
+        📅 <b>今日</b>: 今日のやること・進捗タイル・警告など<br>
+        🗓 <b>カレンダー</b>: 月間ビュー。日タップでスタンプ&タスク管理<br>
+        🎯 <b>テスト</b>: 複数テストを管理。カウントダウン・進捗<br>
+        📚 <b>まとめ</b>: 科目 / 教材の切替で一覧グループ表示<br><br>
         <b>丸ボタン</b>: 未着手 → 着手中 → 完了と1タップ<br>
         <b>タスクをタップ</b>: 詳細編集<br>
-        <b>カレンダー日付タップ</b>: スタンプ選び & その日のタスク管理<br>
         <b>📎 資料棚</b>: ヘッダー📎から。よく使うリンクをタップで開く<br>
-        <b>🎯 テスト</b>: 下タブから複数テスト管理。範囲・カウントダウン・進捗<br>
         <b>⏱ 合計◯分</b>: 各日の見積合計。上限超で赤色警告<br>
-        <b>完了を隠す</b>: 済んだタスクを一時的に非表示<br><br>
+        <b>完了を隠す</b>: 済んだタスクを一時的に非表示<br>
+        <b>タスク削除</b>: すぐ消えるが「元に戻す」トーストで復元可<br><br>
         <b>データ保存先</b>: <code>localStorage</code>（このブラウザ内）
       </div>
     </div>
@@ -813,7 +944,7 @@ const KEY_TESTS = "studyTodo:tests";
 const KEY_LINKS = "studyTodo:links";
 
 let tasks    = load(KEY_TASKS, []);
-let testDate = load(KEY_TEST, "");    // legacy single test date
+let testDate = load(KEY_TEST, "");
 let view     = load(KEY_VIEW, "date");
 let filters  = load(KEY_FLT, {status:"",subject:"",material:""});
 let stats    = load(KEY_STATS, {});
@@ -832,9 +963,16 @@ ui = Object.assign({
   hideDone:false,
   dailyLimit:180,
   addMode:"single",
-  linkFilter:{q:"", tag:""}
+  linkFilter:{q:"", tag:""},
+  catMode:"subject"
 }, ui);
 if(!ui.linkFilter) ui.linkFilter = {q:"",tag:""};
+
+/* View migration: legacy "subject" / "material" → "library" + catMode */
+if(view==="subject" || view==="material"){
+  ui.catMode = view;
+  view = "library";
+}
 
 const ALL_STAMPS = ["🌸","🎀","🍓","🐰","⭐","💮","🌷","🍀","🐻","🐱","🧁","🍭","☀️","🌙","💖","✨","👑","🏆","🎉","💯","🍩","🎈","🌈","💐","🌟","🐶","🐼","🦊","🍑","🍎","🎵","🌺"];
 
@@ -855,11 +993,7 @@ function saveAll(){
   if(testDate && tests.length===0){
     tests = [{
       id:"t_"+Math.random().toString(36).slice(2,10),
-      name:"テスト",
-      date:testDate,
-      range:"",
-      memo:"",
-      created:Date.now()
+      name:"テスト", date:testDate, range:"", memo:"", created:Date.now()
     }];
     localStorage.setItem(KEY_TESTS, JSON.stringify(tests));
   }
@@ -932,6 +1066,36 @@ function fireMega(){
 }
 
 /* ==============================================================
+   Toast / Banner (with action)
+============================================================== */
+function showBanner(text, opts){
+  opts = opts || {};
+  const el=document.createElement("div");
+  el.className="banner"+(opts.warn?" warn":"")+(opts.action?" has-action":"");
+  const span=document.createElement("span");
+  span.textContent = text;
+  el.appendChild(span);
+  if(opts.action){
+    const btn=document.createElement("button");
+    btn.className="banner-action";
+    btn.textContent = opts.action.label || "元に戻す ↩︎";
+    btn.type="button";
+    btn.addEventListener("click", ()=>{
+      try{ opts.action.onClick(); }catch{}
+      el.remove();
+    });
+    el.appendChild(btn);
+  }
+  document.body.appendChild(el);
+  const dur = opts.duration || 2400;
+  setTimeout(()=>{
+    el.style.transition="opacity .4s";
+    el.style.opacity="0";
+    setTimeout(()=>el.remove(),400);
+  }, dur);
+}
+
+/* ==============================================================
    Tasks
 ============================================================== */
 function addTask(t){
@@ -968,6 +1132,29 @@ function deleteTask(id){
   tasks = tasks.filter(x=>x.id!==id);
   saveAll(); render();
 }
+function deleteTaskWithUndo(id){
+  const t = tasks.find(x=>x.id===id); if(!t) return;
+  const snapshot = JSON.parse(JSON.stringify(t));
+  const wasDoneAt = (t.status==="done" && t.doneAt) ? t.doneAt : "";
+  deleteTask(id);
+  vib(15);
+  const title = snapshot.subject || snapshot.material || "タスク";
+  showBanner(`🗑 ${title} を削除しました`, {
+    action: {
+      label: "元に戻す ↩︎",
+      onClick: ()=>{
+        tasks.push(snapshot);
+        if(wasDoneAt){
+          stats.dailyDone[wasDoneAt] = (stats.dailyDone[wasDoneAt]||0) + 1;
+        }
+        saveAll(); render();
+        showBanner("↩︎ 復元しました");
+        vib(10);
+      }
+    },
+    duration: 5000
+  });
+}
 function cycleStatus(id){
   const t=tasks.find(x=>x.id===id); if(!t) return;
   const next = t.status==="todo" ? "doing" : t.status==="doing" ? "done" : "todo";
@@ -999,16 +1186,9 @@ function checkComplete(){
   }
 }
 function showCompleteCelebration(){
-  $("#completeModalBg").classList.add("on");
+  openM("completeModalBg");
   vib([80,40,80,40,120]);
   fireMega();
-}
-function showBanner(text, warn){
-  const el=document.createElement("div");
-  el.className="banner"+(warn?" warn":"");
-  el.innerHTML=`<span>${esc(text)}</span>`;
-  document.body.appendChild(el);
-  setTimeout(()=>{ el.style.transition="opacity .4s"; el.style.opacity="0"; setTimeout(()=>el.remove(),400); }, 2400);
 }
 function flyPlusOne(id){
   const row=document.querySelector(`.task[data-id="${id}"]`);
@@ -1020,12 +1200,11 @@ function flyPlusOne(id){
 }
 
 /* ==============================================================
-   Bulk add (parse & register many tasks at once)
+   Bulk add
 ============================================================== */
 function parseBulk(text){
   const rows = String(text||"").split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   return rows.map(line=>{
-    // Split by whitespace/comma/tab
     const parts = line.split(/[\s,、]+/).filter(Boolean);
     return {
       subject:  parts[0] || "",
@@ -1052,18 +1231,24 @@ function bulkAdd(parsed, testId){
 }
 
 /* ==============================================================
-   Distribute unassigned (7 days, minutes-aware)
+   Distribute unassigned (variable-days, minutes-aware)
 ============================================================== */
 function distributeUnassigned(){
   const un = tasks.filter(t=>!t.date && t.status!=="done");
-  if(!un.length) return 0;
+  if(!un.length) return {count:0, daysCount:0};
   const t0 = today();
+  // Determine day count: default 7, or up to next upcoming test if closer
+  let daysCount = 7;
+  const up = upcomingTest();
+  if(up){
+    const d = daysBetween(t0, fromYmd(up.date));
+    if(d >= 1 && d <= 7) daysCount = d;
+  }
   const days = [];
-  for(let i=0;i<7;i++){
+  for(let i=0;i<daysCount;i++){
     const d=new Date(t0); d.setDate(t0.getDate()+i);
     days.push({ymd:ymd(d), minutes:0, count:0});
   }
-  // Pre-fill with existing assigned (undone) tasks
   for(const t of tasks){
     if(!t.date || t.status==="done") continue;
     const idx = days.findIndex(x=>x.ymd===t.date);
@@ -1081,24 +1266,22 @@ function distributeUnassigned(){
     target.count++;
   }
   saveAll(); render();
-  return un.length;
+  return {count: un.length, daysCount};
 }
 
 /* ==============================================================
-   Backup: export / import
+   Backup
 ============================================================== */
 function exportData(){
   const dump = {
-    kind:"study-todo-backup",
-    version:1,
+    kind:"study-todo-backup", version:1,
     exportedAt:new Date().toISOString(),
     tasks, testDate, stats, ui, tests, links, filters
   };
   const blob = new Blob([JSON.stringify(dump, null, 2)], {type:"application/json"});
   const url  = URL.createObjectURL(blob);
   const a=document.createElement("a");
-  const t=today();
-  a.href=url; a.download=`study-todo-${ymd(t)}.json`;
+  a.href=url; a.download=`study-todo-${ymd(today())}.json`;
   document.body.appendChild(a); a.click();
   setTimeout(()=>{URL.revokeObjectURL(url); a.remove();}, 100);
   showBanner(`💾 書き出しました (${tasks.length}件)`);
@@ -1113,9 +1296,7 @@ function importData(file){
       if(!confirm("今のデータは上書きされます。読み込みますか？")) return;
       if(Array.isArray(data.tasks)) tasks = data.tasks;
       if(typeof data.testDate==="string") testDate = data.testDate;
-      if(data.stats && typeof data.stats==="object"){
-        stats = Object.assign(stats, data.stats);
-      }
+      if(data.stats && typeof data.stats==="object") stats = Object.assign(stats, data.stats);
       if(data.ui && typeof data.ui==="object") ui = Object.assign(ui, data.ui);
       if(Array.isArray(data.tests)) tests = data.tests;
       if(Array.isArray(data.links)) links = data.links;
@@ -1123,11 +1304,11 @@ function importData(file){
       saveAll(); render();
       showBanner(`📥 読み込みました (${tasks.length}件)`);
       vib(15);
-    }catch(err){
-      showBanner("⚠ ファイルが読み込めませんでした", true);
+    }catch{
+      showBanner("⚠ ファイルが読み込めませんでした", {warn:true});
     }
   };
-  reader.onerror = ()=>showBanner("⚠ 読み込み失敗", true);
+  reader.onerror = ()=>showBanner("⚠ 読み込み失敗", {warn:true});
   reader.readAsText(file);
 }
 
@@ -1169,6 +1350,21 @@ function computeStampStreak(){
   }
   let n=0;
   while(stats.stamps[ymd(d)]){ n++; d.setDate(d.getDate()-1); }
+  return n;
+}
+function computeDoneStreak(){
+  const t0=today();
+  let d=new Date(t0);
+  // Grace: if today has none, look back from yesterday
+  if(!((stats.dailyDone[ymd(d)]||0) > 0)){
+    d.setDate(d.getDate()-1);
+    if(!((stats.dailyDone[ymd(d)]||0) > 0)) return 0;
+  }
+  let n=0;
+  while((stats.dailyDone[ymd(d)]||0) > 0){
+    n++;
+    d.setDate(d.getDate()-1);
+  }
   return n;
 }
 function countMonthStamps(refDate){
@@ -1269,9 +1465,9 @@ function sortTasks(items){
 }
 
 /* ==============================================================
-   Minutes helpers (Feature 2)
+   Minutes helpers
 ============================================================== */
-function minutesOfDay(ymdKey, opts){
+function minutesOfDay(ymdKey){
   const items = tasks.filter(t=>t.date===ymdKey);
   let total=0, done=0;
   for(const t of items){
@@ -1284,7 +1480,7 @@ function minutesOfDay(ymdKey, opts){
 }
 
 /* ==============================================================
-   Test helpers
+   Tests
 ============================================================== */
 function upcomingTest(){
   const t0 = today();
@@ -1293,9 +1489,72 @@ function upcomingTest(){
   return future[0] || null;
 }
 function testsProgressOf(testId){
-  const items = tasks.filter(t=>t.testId===testId);
-  return progressOf(items);
+  return progressOf(tasks.filter(t=>t.testId===testId));
 }
+
+/* ==============================================================
+   Modal helpers (focus, inert, trap)
+============================================================== */
+const OUTSIDE_SELECTORS = ["#app-header","#main","#bnav","#fab"];
+let lastFocusedBeforeModal = null;
+
+function setBackgroundInert(on){
+  OUTSIDE_SELECTORS.forEach(sel=>{
+    const el = document.querySelector(sel);
+    if(!el) return;
+    if(on) el.setAttribute("inert","");
+    else el.removeAttribute("inert");
+  });
+}
+function anyModalOpen(){
+  return !!document.querySelector(".modal-bg.on");
+}
+function openM(id){
+  const el = document.getElementById(id); if(!el) return;
+  if(!anyModalOpen()){
+    lastFocusedBeforeModal = document.activeElement;
+    setBackgroundInert(true);
+  }
+  el.classList.add("on");
+  // Focus first focusable in modal
+  setTimeout(()=>{
+    const focusables = modalFocusables(el);
+    if(focusables.length){
+      // Prefer the first non-close button/input
+      const nonClose = focusables.find(x=>!x.classList.contains("close"));
+      (nonClose||focusables[0]).focus();
+    }
+  }, 60);
+}
+function closeM(id){
+  const el = document.getElementById(id); if(!el) return;
+  el.classList.remove("on");
+  if(!anyModalOpen()){
+    setBackgroundInert(false);
+    if(lastFocusedBeforeModal){
+      try{ lastFocusedBeforeModal.focus(); }catch{}
+    }
+    lastFocusedBeforeModal = null;
+  }
+}
+function modalFocusables(modalBg){
+  const modal = modalBg.querySelector(".modal") || modalBg;
+  return [...modal.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]):not([type=hidden]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+    .filter(el=>el.offsetWidth>0 || el.offsetHeight>0 || el===document.activeElement);
+}
+document.addEventListener("keydown", e=>{
+  if(e.key!=="Tab") return;
+  const openModal = document.querySelector(".modal-bg.on");
+  if(!openModal) return;
+  const focusables = modalFocusables(openModal);
+  if(!focusables.length) return;
+  const first = focusables[0], last = focusables[focusables.length-1];
+  if(e.shiftKey && document.activeElement === first){
+    e.preventDefault(); last.focus();
+  } else if(!e.shiftKey && document.activeElement === last){
+    e.preventDefault(); first.focus();
+  }
+});
 
 /* ==============================================================
    Render
@@ -1310,6 +1569,7 @@ function renderHeader(){
   const rate=total?Math.round(done/total*100):0;
   $("#doneRate").textContent=rate+"%";
   $("#doneBar").style.width=rate+"%";
+  $("#doneBar").parentElement.setAttribute("aria-valuenow", rate);
   const chip=$("#testChipBtn"), txt=$("#testChipTxt");
   const up = upcomingTest();
   if(up){
@@ -1327,21 +1587,20 @@ function renderTabs(){
 }
 function renderMain(){
   const main=$("#main"); main.innerHTML="";
-  if(view==="date")       renderTodayView(main);
+  if(view==="date")          renderTodayView(main);
   else if(view==="calendar") renderCalendarView(main);
   else if(view==="tests")    renderTestsView(main);
-  else                    renderCategoryView(main);
+  else if(view==="library")  renderLibraryView(main);
+  else                       renderTodayView(main); // fallback
 }
 
 /* ---------- Today view ---------- */
 function renderTodayView(root){
-  // Tiles
   const tiles=document.createElement("div");
   tiles.className="tiles"; tiles.id="tiles";
   root.appendChild(tiles);
   renderTopTiles();
 
-  // Unassigned warning
   const un = tasks.filter(t=>!t.date && t.status!=="done");
   if(un.length){
     const wb=document.createElement("div");
@@ -1349,31 +1608,37 @@ function renderTodayView(root){
     wb.innerHTML=`
       <span>💭</span><span>まだ日付なしのタスク</span><span class="cnt">${un.length}件</span>
       <span class="spacer"></span>
-      <button type="button" id="distributeBtn" class="pri">🌈 7日に均等配分</button>
+      <button type="button" id="distributeBtn" class="pri">🌈 均等配分</button>
       <button type="button" id="planBtn">配分する</button>`;
     root.appendChild(wb);
     wb.querySelector("#planBtn").addEventListener("click", ()=>{
       view="calendar"; saveAll(); render();
     });
     wb.querySelector("#distributeBtn").addEventListener("click", ()=>{
-      if(!confirm(`${un.length}件を今日から7日間に均等配分します。よろしいですか？`)) return;
-      const n=distributeUnassigned();
-      showBanner(`🌈 ${n}件を7日間に配分しました`);
-      fireLight(); vib(12);
+      const r = distributeUnassigned();
+      if(r.count>0){
+        showBanner(`🌈 ${r.count}件を${r.daysCount}日間に配分しました`);
+        fireLight(); vib(12);
+      }
     });
   }
 
-  // Hide-done toggle
   const doneCount = tasks.filter(t=>t.status==="done").length;
   const hd=document.createElement("div");
   hd.className="hide-done"+(ui.hideDone?" on":"");
+  hd.setAttribute("role","switch");
+  hd.setAttribute("tabindex","0");
+  hd.setAttribute("aria-checked", ui.hideDone?"true":"false");
   hd.innerHTML=`<span class="sw"></span><span class="lb">✓ 完了を隠す</span><span class="cnt">${doneCount}件が完了</span>`;
   root.appendChild(hd);
-  hd.addEventListener("click", ()=>{
+  const toggleHideDone = ()=>{
     ui.hideDone = !ui.hideDone; saveAll(); vib(6); render();
+  };
+  hd.addEventListener("click", toggleHideDone);
+  hd.addEventListener("keydown", e=>{
+    if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggleHideDone(); }
   });
 
-  // Groups
   const filtered = tasks.filter(passListFilter);
   const groups = groupByDate(filtered);
   if(tasks.length===0){
@@ -1390,7 +1655,6 @@ function renderTodayView(root){
     for(const g of groups){
       const el=document.createElement("div");
       el.className="group "+g.cls;
-      // Day hours label (for groups tied to a single date)
       let hoursHtml="";
       if(g.ymd){
         const mm = minutesOfDay(g.ymd);
@@ -1405,7 +1669,6 @@ function renderTodayView(root){
     }
   }
 
-  // Hint pointing to settings
   const hint=document.createElement("div");
   hint.style.cssText="text-align:center;color:var(--muted);font-size:11px;font-weight:600;margin-top:14px;padding:0 8px;line-height:1.6";
   hint.innerHTML=`💡 バックアップ・使い方・上限設定は 右上の <b style="color:var(--pink-deep)">⚙</b> から`;
@@ -1413,12 +1676,8 @@ function renderTodayView(root){
 }
 function renderTopTiles(){
   const tiles=$("#tiles"); if(!tiles) return;
+  const doneStreak = computeDoneStreak();
   const todayY=ymd(today());
-  let streak=stats.streak;
-  if(stats.lastDoneDate){
-    const diff=daysBetween(fromYmd(stats.lastDoneDate), fromYmd(todayY));
-    if(diff>1) streak=0;
-  }
   const td=stats.dailyDone[todayY]||0;
   const stampsN=countMonthStamps();
   const t0=today();
@@ -1428,27 +1687,43 @@ function renderTopTiles(){
     weekTotal += stats.dailyDone[ymd(d)]||0;
   }
   tiles.innerHTML=`
-    <div class="tile streak ${streak>=1?'on':''}"><div class="ic">🔥</div><div class="lab">連続</div><div class="val">${streak}<span style="font-size:12px;color:var(--muted);font-weight:600"> 日</span></div></div>
+    <div class="tile streak ${doneStreak>=1?'on':''}"><div class="ic">🔥</div><div class="lab">連続学習</div><div class="val">${doneStreak}<span style="font-size:12px;color:var(--muted);font-weight:600"> 日</span></div></div>
     <div class="tile today ${td>=1?'hasdone':''}"><div class="ic">✨</div><div class="lab">今日完了</div><div class="val">${td}<span style="font-size:12px;color:var(--muted);font-weight:600"> 件</span></div></div>
     <div class="tile stamps ${stampsN>=1?'hasany':''}"><div class="ic">🌸</div><div class="lab">今月スタンプ</div><div class="val">${stampsN}</div></div>
     <div class="tile"><div class="ic">📈</div><div class="lab">7日完了</div><div class="val">${weekTotal}</div></div>`;
 }
 
-/* ---------- Category view (subject/material) ---------- */
-function renderCategoryView(root){
-  // Hide-done toggle
+/* ---------- Library view (subject/material segment) ---------- */
+function renderLibraryView(root){
+  const seg=document.createElement("div");
+  seg.className="cat-seg";
+  seg.setAttribute("role","tablist");
+  seg.innerHTML=`
+    <button data-cat="subject" role="tab" aria-selected="${ui.catMode==='subject'}" class="${ui.catMode==='subject'?'on':''}">📖 科目</button>
+    <button data-cat="material" role="tab" aria-selected="${ui.catMode==='material'}" class="${ui.catMode==='material'?'on':''}">📕 教材</button>`;
+  root.appendChild(seg);
+  seg.addEventListener("click", e=>{
+    const b=e.target.closest("button[data-cat]"); if(!b) return;
+    ui.catMode = b.dataset.cat;
+    saveAll(); vib(5); render();
+  });
+
   const doneCount = tasks.filter(t=>t.status==="done").length;
   const hd=document.createElement("div");
   hd.className="hide-done"+(ui.hideDone?" on":"");
+  hd.setAttribute("role","switch");
+  hd.setAttribute("tabindex","0");
+  hd.setAttribute("aria-checked", ui.hideDone?"true":"false");
   hd.innerHTML=`<span class="sw"></span><span class="lb">✓ 完了を隠す</span><span class="cnt">${doneCount}件が完了</span>`;
   root.appendChild(hd);
-  hd.addEventListener("click", ()=>{ ui.hideDone=!ui.hideDone; saveAll(); vib(6); render(); });
+  const toggle = ()=>{ ui.hideDone=!ui.hideDone; saveAll(); vib(6); render(); };
+  hd.addEventListener("click", toggle);
+  hd.addEventListener("keydown", e=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); toggle(); }});
 
-  // Filters
   const fs=document.createElement("div");
   fs.className="filters";
   fs.innerHTML=`
-    <select id="fStatus">
+    <select id="fStatus" aria-label="状態フィルタ">
       <option value="">状態: すべて</option>
       <option value="todo" ${filters.status==='todo'?'selected':''}>未着手</option>
       <option value="doing" ${filters.status==='doing'?'selected':''}>着手中</option>
@@ -1456,11 +1731,11 @@ function renderCategoryView(root){
     </select>`;
   const subs=[...new Set(tasks.map(t=>t.subject).filter(Boolean))].sort();
   const mats=[...new Set(tasks.map(t=>t.material).filter(Boolean))].sort();
-  if(view==="subject" && subs.length){
-    fs.innerHTML += `<select id="fSubject"><option value="">科目: すべて</option>${subs.map(x=>`<option value="${esc(x)}" ${filters.subject===x?'selected':''}>${esc(x)}</option>`).join("")}</select>`;
+  if(ui.catMode==="subject" && subs.length){
+    fs.innerHTML += `<select id="fSubject" aria-label="科目フィルタ"><option value="">科目: すべて</option>${subs.map(x=>`<option value="${esc(x)}" ${filters.subject===x?'selected':''}>${esc(x)}</option>`).join("")}</select>`;
   }
-  if(view==="material" && mats.length){
-    fs.innerHTML += `<select id="fMaterial"><option value="">教材: すべて</option>${mats.map(x=>`<option value="${esc(x)}" ${filters.material===x?'selected':''}>${esc(x)}</option>`).join("")}</select>`;
+  if(ui.catMode==="material" && mats.length){
+    fs.innerHTML += `<select id="fMaterial" aria-label="教材フィルタ"><option value="">教材: すべて</option>${mats.map(x=>`<option value="${esc(x)}" ${filters.material===x?'selected':''}>${esc(x)}</option>`).join("")}</select>`;
   }
   root.appendChild(fs);
   fs.addEventListener("change", e=>{
@@ -1478,7 +1753,7 @@ function renderCategoryView(root){
     root.appendChild(em);
     return;
   }
-  const groups = view==="subject"
+  const groups = ui.catMode==="subject"
     ? groupBy(filtered, t=>t.subject||"（未設定）", (k,items)=>{
         const p=progressOf(items);
         return `📖 ${esc(k)} <span class="count">${p.done}/${p.total} (${p.rate}%)</span><span class="bar-mini"><span style="width:${p.rate}%"></span></span>`;
@@ -1496,6 +1771,11 @@ function renderCategoryView(root){
 }
 
 /* ---------- Task row ---------- */
+function statusAria(status){
+  if(status==="doing") return "着手中。タップで完了に";
+  if(status==="done")  return "完了。タップで未着手に戻す";
+  return "未着手。タップで着手中に";
+}
 function taskHtml(t){
   const priLabel = t.priority==="hi"?"💗 たいせつ":t.priority==="mid"?"🌼 ふつう":"🌱 ゆるく";
   const statusCls = t.status==="doing"?"doing": t.status==="done"?"done":"";
@@ -1507,26 +1787,24 @@ function taskHtml(t){
     const test = tests.find(x=>x.id===t.testId);
     if(test) meta.push(`<span class="tag test">🎯 ${esc(test.name)}</span>`);
   }
+  const hasLine = t.material || t.range;
   return `
     <div class="task ${t.status==="done"?"done":""}" data-id="${t.id}">
-      <button class="status ${statusCls}" data-act="cycle" aria-label="状態を回す"></button>
+      <button class="status ${statusCls}" data-act="cycle" aria-label="${esc(statusAria(t.status))}"></button>
       <div class="top" data-act="edit">
-        <span class="subject">${esc(t.subject||"")}</span>
+        <span class="subject">${esc(t.subject||"（無題）")}</span>
         <span class="pri ${t.priority}">${priLabel}</span>
-        <span class="edit-hit">…</span>
+        <span class="edit-hit" aria-hidden="true">…</span>
       </div>
       <div class="body" data-act="edit">
-        <div class="line">
-          <span class="material">${esc(t.material||"")}</span>
-          ${t.range?`<span class="range">${esc(t.range)}</span>`:""}
-        </div>
+        ${hasLine?`<div class="line">${t.material?`<span class="material">${esc(t.material)}</span>`:""}${t.range?`<span class="range">${esc(t.range)}</span>`:""}</div>`:""}
         ${meta.length?`<div class="meta">${meta.join("")}</div>`:""}
         ${t.memo?`<div class="memo">${esc(t.memo)}</div>`:""}
       </div>
     </div>`;
 }
 
-/* ---------- Calendar view ---------- */
+/* ---------- Calendar ---------- */
 let calMonth = (function(){ const d=today(); d.setDate(1); return d; })();
 function renderCalendarView(root){
   const y=calMonth.getFullYear(), m=calMonth.getMonth();
@@ -1626,7 +1904,7 @@ function renderCalendarView(root){
   legend.style.cssText="margin-top:10px;font-size:11px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;padding:0 6px;justify-content:center";
   legend.innerHTML=`
     <span>🔘 未着手</span>
-    <span style="color:#c88010">🟡 着手中</span>
+    <span style="color:#a06a10">🟡 着手中</span>
     <span style="color:var(--mint-deep)">🟢 完了</span>
     <span style="color:var(--coral)">🔴 詰め込みすぎ (${ui.dailyLimit}分超)</span>`;
   root.appendChild(legend);
@@ -1649,7 +1927,6 @@ function renderCalendarView(root){
 
 /* ---------- Tests view ---------- */
 function renderTestsView(root){
-  // Add button
   const addBtn=document.createElement("button");
   addBtn.className="add-test-btn"; addBtn.textContent="＋ テストを追加";
   root.appendChild(addBtn);
@@ -1747,12 +2024,11 @@ function openAddModal(prefillDate, prefillTestId){
     const b=document.createElement("button"); b.type="button"; b.textContent=s; b.dataset.chip=s;
     rmc.appendChild(b);
   });
-  // Reset bulk mode
   setBulkMode(ui.addMode || "single");
   $("#bulkText").value="";
   updateBulkPreview();
-  $("#addModalBg").classList.add("on");
-  setTimeout(()=>{ if(ui.addMode==="single") f.subject.focus(); },100);
+  openM("addModalBg");
+  setTimeout(()=>{ if(ui.addMode==="single") f.subject.focus(); },120);
 }
 function setBulkMode(mode){
   ui.addMode = mode;
@@ -1763,8 +2039,7 @@ function setBulkMode(mode){
 $("#bulkTabs").addEventListener("click", e=>{
   const b=e.target.closest("button[data-bulk-mode]"); if(!b) return;
   setBulkMode(b.dataset.bulkMode);
-  saveAll();
-  vib(6);
+  saveAll(); vib(6);
 });
 function updateBulkPreview(){
   const txt=$("#bulkText").value;
@@ -1778,20 +2053,19 @@ function updateBulkPreview(){
   }
   box.innerHTML = rows.map(r=>{
     if(!r.subject) return "";
-    return `<div class="row ${!r.material?'no-mat':''}"><b>${esc(r.subject)}</b>${r.material?`<span class="m">${esc(r.material)}</span>`:`<span class="m" style="color:var(--coral)">教材なし</span>`}${r.range?`<span class="r">${esc(r.range)}</span>`:""}</div>`;
+    return `<div class="row ${!r.material?'no-mat':''}"><b>${esc(r.subject)}</b>${r.material?`<span class="m">${esc(r.material)}</span>`:`<span class="m" style="color:var(--muted)">教材なし</span>`}${r.range?`<span class="r">${esc(r.range)}</span>`:""}</div>`;
   }).join("");
 }
 $("#bulkText").addEventListener("input", updateBulkPreview);
 $("#bulkAddBtn").addEventListener("click", ()=>{
   const rows = parseBulk($("#bulkText").value);
   const valid = rows.filter(r=>r.subject);
-  if(!valid.length){ showBanner("追加できる行がありません", true); return; }
-  if(!confirm(`${valid.length}件をまとめて追加します。よろしいですか？`)) return;
+  if(!valid.length){ showBanner("追加できる行がありません", {warn:true}); return; }
   const testId = $("#addTestSelect").value || "";
   const n = bulkAdd(valid, testId);
   showBanner(`✨ ${n}件をまとめて追加しました`);
   fireLight(); vib(15);
-  closeAdd();
+  closeM("addModalBg");
 });
 $("#addSubjChips").addEventListener("click", e=>{
   const b=e.target.closest("button[data-chip]"); if(!b) return;
@@ -1833,10 +2107,11 @@ $("#addForm").addEventListener("submit", e=>{
   e.preventDefault();
   if(ui.addMode==="bulk") return;
   const f=e.target;
-  const subject = f.subject.value.trim(), material = f.material.value.trim();
-  if(!subject || !material){ showBanner("科目と教材は必須です", true); return; }
+  const subject = f.subject.value.trim();
+  if(!subject){ showBanner("科目は必須です", {warn:true}); return; }
   const t={
-    subject, material,
+    subject,
+    material: f.material.value.trim(),
     range:f.range.value.trim(),
     date:f.date.value||"",
     minutes:Number(f.minutes.value)||0,
@@ -1846,10 +2121,8 @@ $("#addForm").addEventListener("submit", e=>{
   };
   addTask(t);
   vib(10);
-  closeAdd();
+  closeM("addModalBg");
 });
-
-function closeAdd(){ $("#addModalBg").classList.remove("on"); }
 $("#fab").addEventListener("click", ()=>{ vib(8); openAddModal(); });
 
 /* ==============================================================
@@ -1865,7 +2138,7 @@ function openDayModal(k){
   $("#spPalette").classList.remove("on");
   renderStampPanel();
   renderDayTasks();
-  $("#dayModalBg").classList.add("on");
+  openM("dayModalBg");
 }
 function renderStampPanel(){
   if(!dayModalY) return;
@@ -1952,7 +2225,7 @@ $("#spMoreBtn").addEventListener("click", ()=>{
 $("#spFavToggleBtn").addEventListener("click", ()=>{ favMode=false; renderStampPanel(); });
 $("#dayAddBtn").addEventListener("click", ()=>{
   const d = dayModalY;
-  closeDayModal();
+  closeM("dayModalBg"); dayModalY="";
   openAddModal(d);
 });
 
@@ -1983,39 +2256,8 @@ function openEdit(id){
     b.classList.remove("on","hi","mid","lo");
     if(b.dataset.pri===f.dataset.priority){ b.classList.add("on",b.dataset.pri); }
   });
-  $("#editModalBg").classList.add("on");
+  openM("editModalBg");
 }
-function closeEdit(){ $("#editModalBg").classList.remove("on"); editingId=null; }
-function closeDayModal(){ $("#dayModalBg").classList.remove("on"); dayModalY=""; }
-function closeComplete(){ $("#completeModalBg").classList.remove("on"); }
-function closeLinkModal(){ $("#linkModalBg").classList.remove("on"); }
-function closeLinkEdit(){ $("#linkEditModalBg").classList.remove("on"); linkEditingId=null; }
-function closeTestEdit(){ $("#testEditModalBg").classList.remove("on"); testEditingId=null; }
-function closeSettings(){ $("#settingsModalBg").classList.remove("on"); }
-
-/* ==============================================================
-   Settings modal
-============================================================== */
-function openSettings(){
-  $("#setDailyLimit").value = ui.dailyLimit;
-  $("#settingsModalBg").classList.add("on");
-}
-$("#settingsBtn").addEventListener("click", ()=>{ vib(6); openSettings(); });
-$("#setDailyLimit").addEventListener("change", e=>{
-  const v = Number(e.target.value)||180;
-  ui.dailyLimit = Math.max(30, v);
-  saveAll(); render();
-  vib(6);
-});
-$("#setExportBtn").addEventListener("click", exportData);
-$("#setImportBtn").addEventListener("click", ()=>$("#restoreFile").click());
-$("#setResetBtn").addEventListener("click", ()=>{
-  if(!confirm("本当に全データを消しますか？（元に戻せません）")) return;
-  if(!confirm("最終確認：本当に消してよいですか？\n\n事前に「📤 書き出し」でバックアップを取ることを強く推奨します")) return;
-  localStorage.clear();
-  vib([50,30,50]);
-  location.reload();
-});
 
 $("#editStatusChips").addEventListener("click", e=>{
   const b=e.target.closest("button[data-st]"); if(!b) return;
@@ -2043,8 +2285,10 @@ $("#editForm").addEventListener("submit", e=>{
   e.preventDefault();
   if(!editingId) return;
   const f=e.target;
+  const subject = f.subject.value.trim();
+  if(!subject){ showBanner("科目は必須です", {warn:true}); return; }
   updateTask(editingId, {
-    subject:f.subject.value.trim(),
+    subject,
     material:f.material.value.trim(),
     range:f.range.value.trim(),
     date:f.date.value||"",
@@ -2056,12 +2300,17 @@ $("#editForm").addEventListener("submit", e=>{
     testId: $("#editTestSelect").value || ""
   });
   vib(8);
-  closeEdit();
-  if(dayModalY){ renderDayTasks(); renderStampPanel(); }
+  const wasDayOpen = dayModalY;
+  closeM("editModalBg"); editingId=null;
+  if(wasDayOpen){ renderDayTasks(); renderStampPanel(); }
 });
 $("#btnDelete").addEventListener("click", ()=>{
   if(!editingId) return;
-  if(confirm("削除しますか？")){ deleteTask(editingId); closeEdit(); if(dayModalY){renderDayTasks(); renderStampPanel();} }
+  const id = editingId;
+  const wasDayOpen = dayModalY;
+  closeM("editModalBg"); editingId=null;
+  deleteTaskWithUndo(id);
+  if(wasDayOpen){ renderDayTasks(); renderStampPanel(); }
 });
 
 /* ==============================================================
@@ -2072,7 +2321,7 @@ function openLinkModal(){
   ui.linkFilter = ui.linkFilter || {q:"",tag:""};
   $("#linkSearch").value = ui.linkFilter.q || "";
   renderLinkList();
-  $("#linkModalBg").classList.add("on");
+  openM("linkModalBg");
 }
 function renderLinkList(){
   const list = $("#linkList");
@@ -2105,7 +2354,7 @@ function renderLinkList(){
         ${l.tag?`<span class="tag">🏷 ${esc(l.tag)}</span>`:""}
         <span class="u">${esc(url)}</span>
       </div>
-      <button type="button" class="edit" data-link-edit>✏️</button>
+      <button type="button" class="edit" data-link-edit aria-label="編集">✏️</button>
     </a>`;
   }).join("");
 }
@@ -2116,9 +2365,7 @@ $("#linkSearch").addEventListener("input", e=>{
 $("#linkTagChips").addEventListener("click", e=>{
   const b=e.target.closest("button.chip"); if(!b) return;
   ui.linkFilter.tag = b.dataset.tag || "";
-  saveAll();
-  renderLinkList();
-  vib(5);
+  saveAll(); renderLinkList(); vib(5);
 });
 $("#linkList").addEventListener("click", e=>{
   const editBtn = e.target.closest("[data-link-edit]");
@@ -2126,7 +2373,6 @@ $("#linkList").addEventListener("click", e=>{
     e.preventDefault(); e.stopPropagation();
     const item = e.target.closest(".link-item");
     if(item) openLinkEdit(item.dataset.id);
-    return;
   }
 });
 $("#linkAddBtn").addEventListener("click", ()=>openLinkEdit(null));
@@ -2147,8 +2393,8 @@ function openLinkEdit(id){
       f.tag.value   = l.tag||"";
     }
   }
-  $("#linkEditModalBg").classList.add("on");
-  setTimeout(()=>f.title.focus(),100);
+  openM("linkEditModalBg");
+  setTimeout(()=>f.title.focus(),120);
 }
 $("#linkEditForm").addEventListener("submit", e=>{
   e.preventDefault();
@@ -2162,7 +2408,7 @@ $("#linkEditForm").addEventListener("submit", e=>{
     emoji: f.emoji.value.trim() || "🔗",
     tag:   f.tag.value.trim()
   };
-  if(!data.title){ showBanner("タイトルは必須です", true); return; }
+  if(!data.title){ showBanner("タイトルは必須です", {warn:true}); return; }
   if(linkEditingId){
     const i = links.findIndex(x=>x.id===linkEditingId);
     if(i>=0) links[i] = Object.assign({}, links[i], data);
@@ -2172,16 +2418,24 @@ $("#linkEditForm").addEventListener("submit", e=>{
     showBanner("📎 資料を追加しました");
   }
   saveAll(); vib(10);
-  closeLinkEdit();
+  closeM("linkEditModalBg"); linkEditingId=null;
   renderLinkList();
 });
 $("#linkDeleteBtn").addEventListener("click", ()=>{
   if(!linkEditingId) return;
-  if(!confirm("この資料を削除しますか？")) return;
-  links = links.filter(x=>x.id!==linkEditingId);
+  const id = linkEditingId;
+  const snapshot = links.find(x=>x.id===id);
+  const snap = snapshot ? JSON.parse(JSON.stringify(snapshot)) : null;
+  links = links.filter(x=>x.id!==id);
   saveAll(); vib(10);
-  closeLinkEdit();
+  closeM("linkEditModalBg"); linkEditingId=null;
   renderLinkList();
+  showBanner("🗑 資料を削除しました", {
+    action: { label:"元に戻す ↩︎", onClick: ()=>{
+      if(snap){ links.push(snap); saveAll(); renderLinkList(); showBanner("↩︎ 復元しました"); vib(10); }
+    }},
+    duration: 5000
+  });
 });
 
 /* ==============================================================
@@ -2203,8 +2457,8 @@ function openTestEdit(id){
       f.memo.value = t.memo||"";
     }
   }
-  $("#testEditModalBg").classList.add("on");
-  setTimeout(()=>f.name.focus(),100);
+  openM("testEditModalBg");
+  setTimeout(()=>f.name.focus(),120);
 }
 $("#testEditForm").addEventListener("submit", e=>{
   e.preventDefault();
@@ -2215,34 +2469,68 @@ $("#testEditForm").addEventListener("submit", e=>{
     range: f.range.value,
     memo: f.memo.value
   };
-  if(!data.name){ showBanner("テスト名は必須です", true); return; }
-  if(!data.date){ showBanner("試験日は必須です", true); return; }
+  if(!data.name){ showBanner("テスト名は必須です", {warn:true}); return; }
+  if(!data.date){ showBanner("試験日は必須です", {warn:true}); return; }
   if(testEditingId){
     const i = tests.findIndex(x=>x.id===testEditingId);
     if(i>=0) tests[i] = Object.assign({}, tests[i], data);
     showBanner("💾 テストを更新しました");
   } else {
     tests.push(Object.assign({id: uid("test_"), created:Date.now()}, data));
-    // Also update legacy testDate to nearest future for backwards compatibility
     const up = upcomingTest();
     if(up) testDate = up.date;
     showBanner("🎯 テストを追加しました");
     fireLight();
   }
   saveAll(); vib(10);
-  closeTestEdit();
+  closeM("testEditModalBg"); testEditingId=null;
   render();
 });
 $("#testDeleteBtn").addEventListener("click", ()=>{
   if(!testEditingId) return;
-  if(!confirm("このテストを削除しますか？（紐づいたタスクは残ります）")) return;
-  tests = tests.filter(x=>x.id!==testEditingId);
-  // update legacy
+  const id = testEditingId;
+  const snap = tests.find(x=>x.id===id);
+  const snapCopy = snap ? JSON.parse(JSON.stringify(snap)) : null;
+  tests = tests.filter(x=>x.id!==id);
   const up = upcomingTest();
   testDate = up ? up.date : "";
   saveAll(); vib(10);
-  closeTestEdit();
+  closeM("testEditModalBg"); testEditingId=null;
   render();
+  showBanner("🗑 テストを削除しました", {
+    action: { label:"元に戻す ↩︎", onClick: ()=>{
+      if(snapCopy){
+        tests.push(snapCopy);
+        const u = upcomingTest(); testDate = u? u.date : testDate;
+        saveAll(); render(); showBanner("↩︎ 復元しました"); vib(10);
+      }
+    }},
+    duration: 5000
+  });
+});
+
+/* ==============================================================
+   Settings modal
+============================================================== */
+function openSettings(){
+  $("#setDailyLimit").value = ui.dailyLimit;
+  openM("settingsModalBg");
+}
+$("#settingsBtn").addEventListener("click", ()=>{ vib(6); openSettings(); });
+$("#setDailyLimit").addEventListener("change", e=>{
+  const v = Number(e.target.value)||180;
+  ui.dailyLimit = Math.max(30, v);
+  saveAll(); render();
+  vib(6);
+});
+$("#setExportBtn").addEventListener("click", exportData);
+$("#setImportBtn").addEventListener("click", ()=>$("#restoreFile").click());
+$("#setResetBtn").addEventListener("click", ()=>{
+  if(!confirm("本当に全データを消しますか？（元に戻せません）")) return;
+  if(!confirm("最終確認：本当に消してよいですか？\n\n事前に「📤 書き出し」でバックアップを取ることを強く推奨します")) return;
+  localStorage.clear();
+  vib([50,30,50]);
+  location.reload();
 });
 
 /* ==============================================================
@@ -2258,19 +2546,16 @@ document.addEventListener("click", e=>{
     if(act==="edit"){ openEdit(id); return; }
   }
   if(e.target.hasAttribute("data-close")){
-    closeEdit(); closeDayModal(); closeComplete(); closeAdd();
-    closeLinkModal(); closeLinkEdit(); closeTestEdit(); closeSettings();
+    // close all open modals (only visible one will act)
+    ["editModalBg","dayModalBg","completeModalBg","addModalBg","linkModalBg","linkEditModalBg","testEditModalBg","settingsModalBg"].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el && el.classList.contains("on")) closeM(id);
+    });
     return;
   }
   if(e.target.classList.contains("modal-bg")){
-    if(e.target.id==="editModalBg")      closeEdit();
-    if(e.target.id==="dayModalBg")       closeDayModal();
-    if(e.target.id==="completeModalBg")  closeComplete();
-    if(e.target.id==="addModalBg")       closeAdd();
-    if(e.target.id==="linkModalBg")      closeLinkModal();
-    if(e.target.id==="linkEditModalBg")  closeLinkEdit();
-    if(e.target.id==="testEditModalBg")  closeTestEdit();
-    if(e.target.id==="settingsModalBg")  closeSettings();
+    const id = e.target.id;
+    if(document.getElementById(id).classList.contains("on")) closeM(id);
   }
 });
 
@@ -2282,11 +2567,10 @@ $("#testChipBtn").addEventListener("click", ()=>{
   if(view!=="tests"){ view="tests"; saveAll(); render(); }
 });
 
-/* Restore file input */
 $("#restoreFile").addEventListener("change", e=>{
   const f=e.target.files && e.target.files[0];
   if(f) importData(f);
-  e.target.value=""; // reset
+  e.target.value="";
 });
 
 document.addEventListener("keydown", e=>{
@@ -2294,8 +2578,8 @@ document.addEventListener("keydown", e=>{
     e.preventDefault(); openAddModal();
   }
   if(e.key==="Escape"){
-    closeEdit(); closeDayModal(); closeComplete(); closeAdd();
-    closeLinkModal(); closeLinkEdit(); closeTestEdit(); closeSettings();
+    const openModal = document.querySelector(".modal-bg.on");
+    if(openModal) closeM(openModal.id);
   }
   if(e.key==="n" && !e.ctrlKey && !e.metaKey && !e.altKey && document.activeElement.tagName!=="INPUT" && document.activeElement.tagName!=="TEXTAREA"){
     e.preventDefault(); openAddModal();
@@ -2312,33 +2596,20 @@ document.addEventListener("touchstart", ()=>{}, {passive:true});
     if(diff>1) stats.streak=0;
   }
 })();
+
+/* Persistent storage request (silent) */
+if(navigator.storage && navigator.storage.persist){
+  try{ navigator.storage.persist().catch(()=>{}); }catch{}
+}
+
 render();
 
-/* ==============================================================
-   PWA: Service Worker registration
-============================================================== */
+/* PWA */
 if("serviceWorker" in navigator){
   window.addEventListener("load", ()=>{
     navigator.serviceWorker.register("./sw.js").catch(()=>{});
   });
 }
-
-/* ==============================================================
-   使い方メモ（開発者向け）
-   -----------------------------------------------
-   [ 追加機能一覧 ]
-   1. 一括登録  ... addModalの「まとめて」タブ → 1行1タスクで貼付 → プレビュー → まとめて追加
-   2. 日別合計時間 ... 今日ビューのグループh2に「⏱合計◯分」。180分超は警告色。カレンダーセル右下にも◯分表示。ui.dailyLimit で上限変更可
-   3. バックアップ ... 今日ビュー下部「💾バックアップ」。exportData/importData 対応。tasks/testDate/stats/ui/tests/links を保存
-   4. 完了を隠す ... 今日/科目/教材ビュー上部トグル。ui.hideDone に永続化。カレンダー/スタンプ判定は影響なし
-   5. 一括配分 ... 未配分warnbar「🌈 7日に均等配分」。distributeUnassigned()で今日〜6日後にminutes均等化
-   6. 資料棚(📎) ... ヘッダー📎ボタン。KEY_LINKS。追加/編集/削除/検索/タグ絞り込み
-   7. テスト管理(🎯) ... 下タブ「テスト」。KEY_TESTS配列。カード表示・カウントダウン・進捗バー・タスク追加導線
-      - 既存testDateは初回起動時に自動移行
-      - タスクにtestIdフィールド追加、addModal/editModalで選択可
-      - カレンダーの複数試験日はtestdayスタイル表示
-   -----------------------------------------------
-============================================================== */
 </script>
 </body>
 </html>

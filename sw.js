@@ -1,4 +1,4 @@
-const CACHE = "study-todo-v1";
+const CACHE = "study-todo-v2";
 const CORE = [
   "./",
   "./index.html",
@@ -26,7 +26,6 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
 
-  // Same-origin: cache-first with network fallback
   if (url.origin === location.origin) {
     e.respondWith(
       caches.match(req).then(
@@ -44,7 +43,6 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // CDN (fonts, confetti): stale-while-revalidate
   e.respondWith(
     caches.match(req).then((hit) => {
       const fetchPromise = fetch(req)
